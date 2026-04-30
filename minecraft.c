@@ -1,5 +1,5 @@
 //POMOC POMOC POMOC POMOC - verze 8.0(snad boss) verze 7.0 (healy, dice art(1)) verze 6.0 (bug fixes, vic v inv, crafting recepies, easy loadovani saveu) verze 5.0 (vic v inv, crafting recepies, easy loadovani saveu) verze 4.1(==SAVEOVANI==, UTF - 8 text vsude - ta setconsoleoutput fce v main, 2x kosticek,SHEEP ART, SKELL ART and ZOMBIE ART) 3.0 (clear screen + menu boss) + 2.0(plains + encounter + counterattack) 1.0(+ crafting armor/weapons + barvy + input int/string + inventory)
-//NAPADY - hp doplnovani - jidlo system - nezapomen ukladat, heal
+//NAPADY - 
 //       - dum? - zahrada, crafting table, furnace, animal farmu [village? - stardew valley npccka? item trade?]
 //       - 
 #include <stdlib.h>
@@ -1085,7 +1085,7 @@ int plains(int d_sword, int i_sword, int * leather, int * wool, int * player_hp_
 }
 
 //DATA SAVE
-int getdatapls(int * leather, int * wool, int * wood, int * iron, int * diamonds, int * i_helmet, int * d_helmet, int * i_chestplate, int * d_chestplate, int * i_leggings, int * d_leggings, int * i_boots, int * d_boots, int * d_sword, int * i_sword, int * i_pickaxe, int * d_pickaxe, int * i_axe, int * d_axe){
+int getdatapls(int * player_hp_fighting, int * leather, int * wool, int * wood, int * iron, int * diamonds, int * i_helmet, int * d_helmet, int * i_chestplate, int * d_chestplate, int * i_leggings, int * d_leggings, int * i_boots, int * d_boots, int * d_sword, int * i_sword, int * i_pickaxe, int * d_pickaxe, int * i_axe, int * d_axe){
 	FILE * fptr_fce;
 	char voleni_file_jmeno[30];
 	int whil = 1;
@@ -1113,6 +1113,8 @@ int getdatapls(int * leather, int * wool, int * wood, int * iron, int * diamonds
 	}
 		char s_data_save[10];
 
+		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
+		*player_hp_fighting = atoi(s_data_save);
 		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
 		*leather = atoi(s_data_save);
 		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
@@ -1207,7 +1209,7 @@ int main()
 	int running = 1; 
 
 
-	getdatapls(&leather, &wool, &wood, &iron, &diamonds, &i_helmet, &d_helmet, &i_chestplate, &d_chestplate, &i_leggings, &d_leggings, &i_boots, &d_boots, &d_sword, &i_sword, &i_pickaxe, &d_pickaxe, &i_axe, &d_axe);
+	getdatapls(&player_hp_fighting, &leather, &wool, &wood, &iron, &diamonds, &i_helmet, &d_helmet, &i_chestplate, &d_chestplate, &i_leggings, &d_leggings, &i_boots, &d_boots, &d_sword, &i_sword, &i_pickaxe, &d_pickaxe, &i_axe, &d_axe);
 
 	while (1) {
 		i_armor_count = i_helmet + i_chestplate + i_leggings + i_boots;
@@ -1227,7 +1229,7 @@ int main()
 				strcpy(voleni_file_jmeno_tricetpet, voleni_file_jmeno);
 				strcat(voleni_file_jmeno_tricetpet, ".txt");
 				fptr = fopen(voleni_file_jmeno_tricetpet, "w");
-				fprintf(fptr, " %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n ", leather, wool, wood, iron, diamonds, i_helmet, d_helmet, i_chestplate, d_chestplate, i_leggings, d_leggings, i_boots, d_boots, d_sword, i_sword, i_pickaxe, d_pickaxe, i_axe, d_axe);
+				fprintf(fptr, " %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n ",player_hp_fighting, leather, wool, wood, iron, diamonds, i_helmet, d_helmet, i_chestplate, d_chestplate, i_leggings, d_leggings, i_boots, d_boots, d_sword, i_sword, i_pickaxe, d_pickaxe, i_axe, d_axe);
 				fclose(fptr);
 				printf(RED "SAVING AND ENDING THE GAME..." RESET);
 				Sleep(500);
@@ -1651,7 +1653,7 @@ int main()
 			printf(CYAN " diamond axe:        %d\n" RESET, d_axe);
 			printf(GRAY " iron axe:           %d\n" RESET, i_axe);
 			printf(CYAN " diamond helmet:     %d\n" RESET, d_helmet);
-			printf(GRAY	 " iron helmet:       %d\n" RESET, i_helmet);
+			printf(GRAY	" iron helmet:        %d\n" RESET, i_helmet);
 			printf(CYAN " diamond chestplate: %d\n" RESET, d_chestplate);
 			printf(GRAY " iron chestplate:    %d\n" RESET, i_chestplate);
 			printf(CYAN " diamond leggings:   %d\n" RESET, d_leggings);
