@@ -230,3 +230,53 @@ void matika_dice(int kos_1, int d_1[7][7]){
 		break;
 	}
 }
+void dice(int kos_1, int kos_2){
+	int d_1[7][7];
+	int d_2[7][7];
+	for(int i = 0; i < 7; i++){
+		for(int j = 0; j <7; j++){
+			d_1[i][j] = 1;
+		}
+	}
+	for(int i = 0; i < 7; i++){
+		for(int j = 0; j <7; j++){
+			d_2[i][j] = 1;
+		}
+	}
+	
+	matika_dice(kos_1, d_1);
+	matika_dice(kos_2, d_2);
+	
+
+	//tisk
+	for(int i = 0; i < 7; i++){
+		for(int j = 0; j <7; j++){
+			if(d_1[i][j] == 1){
+				printf(WHITE "\xE2\x96\x88" RESET);
+				printf(WHITE "\xE2\x96\x88" RESET);
+			}
+			else if(d_1[i][j] == 2){
+				printf(BLACK "\xE2\x96\x88" RESET);
+				printf(BLACK "\xE2\x96\x88" RESET);
+			}
+		}
+		printf("\n");
+	}
+	printf("\n");
+	printf("\n");
+	for(int i = 0; i < 7; i++){
+		for(int j = 0; j <7; j++){
+			if(d_2[i][j] == 1){
+				printf(WHITE "\xE2\x96\x88" RESET);
+				printf(WHITE "\xE2\x96\x88" RESET);
+			}
+			else if(d_2[i][j] == 2){
+				printf(BLACK "\xE2\x96\x88" RESET);
+				printf(BLACK "\xE2\x96\x88" RESET);
+			}
+		}
+		printf("\n");
+	}
+
+}
+

@@ -1,7 +1,7 @@
-#define RED     "\033[31m"
-#define GREEN   "\033[32m"
-#define YELLOW  "\033[33m"
-#define CYAN    "\033[36m"
+#define RED     "\033[31m" //gud thing
+#define GREEN   "\033[32m" //bad thing
+#define YELLOW  "\033[33m" //text
+#define CYAN    "\033[36m" //rozhodnuti, titles
 #define BOLD    "\033[1m"
 #define RESET   "\033[0m"
 #define BLUE    "\x1b[34m"

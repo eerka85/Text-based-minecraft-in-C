@@ -1,7 +1,7 @@
-//POMOC POMOC POMOC POMOC - verze 9.0 (dice, phub) verze 8.0(old samuraj) verze 7.0 (healy, dice art(1)) verze 6.0 (bug fixes, vic v inv, crafting recepies, easy loadovani saveu) verze 5.0 (vic v inv, crafting recepies, easy loadovani saveu) verze 4.1(==SAVEOVANI==, UTF - 8 text vsude - ta setconsoleoutput fce v main, 2x kosticek,SHEEP ART, SKELL ART and ZOMBIE ART) 3.0 (clear screen + menu boss) + 2.0(plains + encounter + counterattack) 1.0(+ crafting armor/weapons + barvy + input int/string + inventory)
+//POMOC POMOC POMOC POMOC - verze 10.0 (tank, mlib, art) verze 9.0 (dice, phub) verze 8.0(old samuraj) verze 7.0 (healy, dice art(1)) verze 6.0 (bug fixes, vic v inv, crafting recepies, easy loadovani saveu) verze 5.0 (vic v inv, crafting recepies, easy loadovani saveu) verze 4.1(==SAVEOVANI==, UTF - 8 text vsude - ta setconsoleoutput fce v main, 2x kosticek,SHEEP ART, SKELL ART and ZOMBIE ART) 3.0 (clear screen + menu boss) + 2.0(plains + encounter + counterattack) 1.0(+ crafting armor/weapons + barvy + input int/string + inventory)
 //NAPADY - 
 //       - dum? - zahrada, crafting table, furnace, animal farmu [village? - stardew valley npccka? item trade?]
-//       - 
+//       - trophy room pro boss fighty? (soucasti domu?)
 // stehlik mrda dvanactky
 //is ts working branch?
 #include <stdlib.h>
@@ -57,60 +57,7 @@ void del_screen(){
 	getchar();
 	system("cls");
 }
-//ART
 
-
-// DICE
-
-void dice(int kos_1, int kos_2){
-	int d_1[7][7];
-	int d_2[7][7];
-	for(int i = 0; i < 7; i++){
-		for(int j = 0; j <7; j++){
-			d_1[i][j] = 1;
-		}
-	}
-	for(int i = 0; i < 7; i++){
-		for(int j = 0; j <7; j++){
-			d_2[i][j] = 1;
-		}
-	}
-	
-	matika_dice(kos_1, d_1);
-	matika_dice(kos_2, d_2);
-	
-
-	//tisk
-	for(int i = 0; i < 7; i++){
-		for(int j = 0; j <7; j++){
-			if(d_1[i][j] == 1){
-				printf(WHITE "\xE2\x96\x88" RESET);
-				printf(WHITE "\xE2\x96\x88" RESET);
-			}
-			else if(d_1[i][j] == 2){
-				printf(BLACK "\xE2\x96\x88" RESET);
-				printf(BLACK "\xE2\x96\x88" RESET);
-			}
-		}
-		printf("\n");
-	}
-	printf("\n");
-	printf("\n");
-	for(int i = 0; i < 7; i++){
-		for(int j = 0; j <7; j++){
-			if(d_2[i][j] == 1){
-				printf(WHITE "\xE2\x96\x88" RESET);
-				printf(WHITE "\xE2\x96\x88" RESET);
-			}
-			else if(d_2[i][j] == 2){
-				printf(BLACK "\xE2\x96\x88" RESET);
-				printf(BLACK "\xE2\x96\x88" RESET);
-			}
-		}
-		printf("\n");
-	}
-
-}
 
 
 //MENY
@@ -510,6 +457,76 @@ int encounter(int chosen_mon, int d_sword, int i_sword, int * leather, int * woo
 	return 0;
 }
 //BOSSOVE 
+int tank_fight(){
+	int PLAYER_lives = 4;				//PLAYER
+	int max_PLAYER_lives = PLAYER_lives;
+
+	int MAUS_lives = 10;				//MOOSE xd
+	int max_MAUS_lives = MAUS_lives;
+	int decision_roud = 0;
+	
+	int decide_chance = 0;
+
+	clear_screen();
+
+	printf(YELLOW "\n You walk around hilly plains and suddenly you hear a strange soud..." RESET);
+	printf(CYAN "\n Take a closer look?\n 0. = NAH\n 1. = YEA\n" RESET);
+	int rlynga = input_int(0, 1);
+	if(rlynga == 0){
+		return 0;
+	}
+	printf(YELLOW "\n Behind one of the hills appears.... " RESET);
+	Sleep(1000);
+	printf(RED "A 128mm long cylinder??" RESET);
+	Sleep(500);
+	printf(BOLD RED "\n\n === A MAUS tank appeared to have noticed you! ===\n" RESET);
+	
+	do{
+		if(MAUS_lives <=0){ //win
+			return 0;
+		}
+		printf(RED "\n MAUS HP = %d/%d" RESET, MAUS_lives, max_MAUS_lives);
+		printf(GREEN "\n YOUR HP = %d/%d" RESET, PLAYER_lives, max_PLAYER_lives);
+
+		//PLAYER decides what to do
+		//1 - attack 2x 
+		//2 - try dodge and attack
+		//3 - pray 25% chance to heal
+		printf(BOLD CYAN "\n What will you do?" RESET);
+		printf(YELLOW "\n 1. = attack TWICE\n 2. = try to dodge and attack\n 3. pray" RESET);
+		getchar();
+
+
+
+
+
+		//tank decides what to do
+		//1 - heal
+		//2 - attack
+		if(MAUS_lives < max_MAUS_lives){
+			decide_chance = rand() % 100;
+			if(decide_chance > 65){
+				decision_roud = 1;
+			}
+			else{
+				decision_roud = 2;
+			}
+		}
+		else{
+			decision_roud = 2;
+		}
+
+		//stuff happens
+
+
+
+
+
+	} while(PLAYER_lives > 0); //main do while cycyle end
+	printf("You died..."); //dodelat?
+	exit(0);
+}
+
 void samurai_fight(int *boss_hp, int *player_hp, int i_chestplate, int i_helmet, int i_leggings, int i_boots, int d_chestplate, int d_helmet, int d_leggings, int d_boots, int d_sword, int i_sword) {
     int p_attack = 0;
     int damage = 0;
@@ -1354,7 +1371,9 @@ int main()
                         break; // end case 1 of boss_fight_volba
                     
                     case 2: printf(GREEN "You chose mage boss!\n" RESET); break;
-                    case 3: printf(GREEN "You chose tank boss!\n" RESET); break;
+                    case 3: 
+						tank_fight();
+					break;
                     case 4: printf(GREEN "You chose assassin boss!\n" RESET); break;
                 } // end boss_fight_volba switch
             } // end boss_loop while
@@ -1370,7 +1389,7 @@ int main()
     break; // end main case 3
 		case 4: // inventory
 			printf(BOLD CYAN "\n=== INVENTORY ===\n" RESET);
-			printf(RED " Health:              %d/10\n" RESET, player_hp_fighting);
+			printf(RED    " Health:           %d/10\n" RESET, player_hp_fighting);
 			printf(YELLOW " Logs:             %d\n" RESET, wood);
 			printf(YELLOW " Iron:             %d\n" RESET, iron);
 			printf(YELLOW " Diamonds:         %d\n" RESET, diamonds);
