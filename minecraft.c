@@ -295,22 +295,89 @@ void print_sheep(){
 	}
 }
 // DICE
-void dice(int k_1, int k_2){
+void matika_dice(int kos_1, int d_1[7][7]){
+	switch (kos_1){
+		case 1:
+			d_1[3][3] = 2;
+		break;
+		case 2:
+			d_1[3][1] = 2;
+			d_1[3][5] = 2;
+		break;
+		case 3:
+			d_1[1][1] = 2;
+			d_1[3][3] = 2;
+			d_1[5][5] = 2;
+		break;
+		case 4:
+			d_1[1][1] = 2;
+			d_1[5][1] = 2;
+			d_1[1][5] = 2;
+			d_1[5][5] = 2;
+		break;
+		case 5:
+			d_1[1][1] = 2;
+			d_1[5][1] = 2;
+			d_1[1][5] = 2;
+			d_1[5][5] = 2;
+			d_1[3][3] = 2;
+		break;
+		case 6:
+			d_1[1][1] = 2;
+			d_1[5][1] = 2;
+			d_1[1][5] = 2;
+			d_1[5][5] = 2;
+			d_1[1][3] = 2;
+			d_1[5][3] = 2;			
+		break;
+	}
+}
+void dice(int kos_1, int kos_2){
 	int d_1[7][7];
+	int d_2[7][7];
 	for(int i = 0; i < 7; i++){
 		for(int j = 0; j <7; j++){
-			d_1[i][j] = 0;
+			d_1[i][j] = 1;
 		}
 	}
+	for(int i = 0; i < 7; i++){
+		for(int j = 0; j <7; j++){
+			d_2[i][j] = 1;
+		}
+	}
+	
+	matika_dice(kos_1, d_1);
+	matika_dice(kos_2, d_2);
+	
 
 	//tisk
 	for(int i = 0; i < 7; i++){
 		for(int j = 0; j <7; j++){
-			if(d_1[i][j] = 1){
+			if(d_1[i][j] == 1){
 				printf(WHITE "\xE2\x96\x88" RESET);
 				printf(WHITE "\xE2\x96\x88" RESET);
 			}
+			else if(d_1[i][j] == 2){
+				printf(BLACK "\xE2\x96\x88" RESET);
+				printf(BLACK "\xE2\x96\x88" RESET);
+			}
 		}
+		printf("\n");
+	}
+	printf("\n");
+	printf("\n");
+	for(int i = 0; i < 7; i++){
+		for(int j = 0; j <7; j++){
+			if(d_2[i][j] == 1){
+				printf(WHITE "\xE2\x96\x88" RESET);
+				printf(WHITE "\xE2\x96\x88" RESET);
+			}
+			else if(d_2[i][j] == 2){
+				printf(BLACK "\xE2\x96\x88" RESET);
+				printf(BLACK "\xE2\x96\x88" RESET);
+			}
+		}
+		printf("\n");
 	}
 
 }
@@ -445,6 +512,10 @@ int heal_player(int * player_hp_fighting){
 	int con_d_whil = 1;
 	int villager_dice_roll = 0;
 	int p_dice_roll = 0;
+	int dv1;
+	int dv2;
+	int dp1;
+	int dp2;
 	printf(YELLOW "\n PLAY DICE WITH VILLAGER FOR FOOD?\n 1. YES\n 0. NO\n" RESET);
 	volba_d = input_int(0, 1);
 	switch(volba_d){
@@ -454,12 +525,18 @@ int heal_player(int * player_hp_fighting){
 		case 1:
 			while(con_d_whil){
 				//vil roll - ((rand() %6)+1)
-				villager_dice_roll = ((rand() %6)+1) + ((rand() %6)+1);
+				dv1 =((rand() %6)+1);
+				dv2 =((rand() %6)+1);
+				dice(dv1, dv2);
+				villager_dice_roll = dv1 + dv2;
 				printf(RED "\n The villager rolled %d," RESET, villager_dice_roll);
 
 				printf(GREEN "\n Your turn, press ENTER to roll: ");
 				getchar();
-				p_dice_roll = ((rand() %6)+1) + ((rand() %6)+1);
+				dp1 = ((rand() %6)+1);
+				dp2 = ((rand() %6)+1);
+				dice(dp1, dp2);
+				p_dice_roll = dp1 + dp2;
 				printf(RED "\n You rolled %d," RESET, p_dice_roll);
 				if(p_dice_roll > villager_dice_roll){
 					printf(GREEN "\n yay YOU WON yay\n Adding 3hp..." RESET);
