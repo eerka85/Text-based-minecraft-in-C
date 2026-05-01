@@ -35,7 +35,7 @@ void input_string (char pole[], int velikost, char vypis []) {
 int input_int(int min, int max) {
 	int tmp = 0;
 	while(1) {
-		printf(YELLOW" CHOOSE: " RESET);
+		printf(YELLOW"\n CHOOSE: " RESET);
 		int is_input_valid = scanf("%d", &tmp);
 		clean_buffer();
 		if(is_input_valid == 0 || tmp <min || tmp >max) {
@@ -48,12 +48,12 @@ int input_int(int min, int max) {
 	}
 }
 void clear_screen() {
-	printf(BLUE " \nCONTINUE? (press enter)" RESET);
+	printf(BLUE "\n CONTINUE? (press enter)" RESET);
 	getchar();
 	printf("\033[H\033[2J");
 }
 void del_screen(){
-	printf(BLUE " \nCONTINUE? (press enter)" RESET);
+	printf(BLUE "\n CONTINUE? (press enter)" RESET);
 	getchar();
 	system("cls");
 }
@@ -65,13 +65,13 @@ void del_screen(){
 void menu() {
 	clear_screen();
 	printf(BOLD CYAN "\n=== ADVENTURE ===\n" RESET);
-	printf(YELLOW " 1. CRAFT\n 2. MINE\n 3. FIGHT\n 4. INVENTORY\n 5. HEAL\n 0. LEAVE\n" RESET);
+	printf(YELLOW " 1. CRAFT\n 2. MINE\n 3. FIGHT\n 4. INVENTORY\n 5. HEAL\n 0. LEAVE" RESET);
 }
 
 void menu_mine() {
 	clear_screen();
 	printf(BOLD CYAN "\n===MINING MENU===\n" RESET);
-	printf(YELLOW " 1. MINING WOOD\n 2. MINING IRON\n 3. MINING DIAMONDS\n 0. BACK\n" RESET);
+	printf(YELLOW " 1. MINING WOOD\n 2. MINING IRON\n 3. MINING DIAMONDS\n 0. BACK" RESET);
 }
 void menu_craft(int leather, int wool, int wood, int iron, int diamonds) {
 	char H_color[10];
@@ -140,7 +140,7 @@ void menu_craft(int leather, int wool, int wood, int iron, int diamonds) {
 void menu_boss(){
 	clear_screen();
 	printf (BOLD CYAN "=== BOSS FIGHT MENU === \n" RESET);
-	printf (YELLOW " 1. LEVEL - 1\n 2. LEVEL - 2\n 3. LEVEL - 3\n 4. LEVEL - 4\n 5. RANDOM LEVEL\n 0. BACK \n" RESET);
+	printf (YELLOW " 1. LEVEL - 1\n 2. LEVEL - 2\n 3. LEVEL - 3\n 4. LEVEL - 4\n 5. RANDOM LEVEL\n 0. BACK" RESET);
 }
 void boss_menu() {
     printf(BOLD CYAN "\n=== BOSS FIGHT MENU ===\n" RESET);
@@ -161,7 +161,7 @@ void colours (char crystal) {
 void menu_fighting() {
 	clear_screen();
 	printf(BOLD CYAN "\n=== FIGHTING MENU ===\n" RESET);
-	printf(YELLOW " 1. BOSS FIGHT\n 2. EXPLORE (plains)\n 3. EXPLORE (caves)\n 0. BACK\n" RESET);
+	printf(YELLOW " 1. BOSS FIGHT\n 2. EXPLORE (plains)\n 3. EXPLORE (caves)\n 0. BACK" RESET);
 }
 void menu_encounter(int chosen_mon, char mon_name[], int hp_mon, int MAX_hp_mon, int *player_hp_fighting) {
 	clear_screen();
@@ -181,7 +181,7 @@ void menu_encounter(int chosen_mon, char mon_name[], int hp_mon, int MAX_hp_mon,
 	printf(BOLD CYAN "\n=== ENCOUTER MENU ===\n" RESET);
 	printf(RED " ENEMY HP = %d/%d\n" RESET, hp_mon, MAX_hp_mon);
 	printf(GREEN " YOUR HP = %d/10\n" RESET, *player_hp_fighting);
-	printf(YELLOW " 1.ATTACK\n 0.RUN\n" RESET);
+	printf(YELLOW " 1.ATTACK\n 0.RUN" RESET);
 }
 //jidlo
 int heal_player(int * player_hp_fighting){
@@ -193,7 +193,7 @@ int heal_player(int * player_hp_fighting){
 	int dv2;
 	int dp1;
 	int dp2;
-	printf(YELLOW "\n PLAY DICE WITH VILLAGER FOR FOOD?\n 1. YES\n 0. NO\n" RESET);
+	printf(YELLOW "\n PLAY DICE WITH VILLAGER FOR FOOD?\n 1. YES\n 0. NO" RESET);
 	volba_d = input_int(0, 1);
 	switch(volba_d){
 		case 0:
@@ -457,28 +457,40 @@ int encounter(int chosen_mon, int d_sword, int i_sword, int * leather, int * woo
 	return 0;
 }
 //BOSSOVE 
-int tank_fight(){
+int dodge_TANK(){
+	//zapamatovani beatu?
+}
+int dmg_TANK(){
+	//pocitat milisekundy od 321 ted?
+	printf("\n attack");
+	getchar();
+	//printf dealt x dmg
+	return 1;
+}
+int tank_fight(int i_armor_count, int d_armor_count){
 	int PLAYER_lives = 4;				//PLAYER
 	int max_PLAYER_lives = PLAYER_lives;
+	int PLAYER_decision_roud = 0;
 
 	int MAUS_lives = 10;				//MOOSE xd
 	int max_MAUS_lives = MAUS_lives;
-	int decision_roud = 0;
+	int MAUS_decision_roud = 0;
 	
 	int decide_chance = 0;
+	int tank_attack_dmg = 2; 
 
 	clear_screen();
 
 	printf(YELLOW "\n You walk around hilly plains and suddenly you hear a strange soud..." RESET);
-	printf(CYAN "\n Take a closer look?\n 0. = NAH\n 1. = YEA\n" RESET);
+	printf(CYAN "\n Take a closer look?\n 0. = NAH\n 1. = YEA" RESET);
 	int rlynga = input_int(0, 1);
 	if(rlynga == 0){
 		return 0;
 	}
 	printf(YELLOW "\n Behind one of the hills appears.... " RESET);
-	Sleep(1000);
+	Sleep(2000);
 	printf(RED "A 128mm long cylinder??" RESET);
-	Sleep(500);
+	Sleep(1000);
 	printf(BOLD RED "\n\n === A MAUS tank appeared to have noticed you! ===\n" RESET);
 	
 	do{
@@ -491,13 +503,10 @@ int tank_fight(){
 		//PLAYER decides what to do
 		//1 - attack 2x 
 		//2 - try dodge and attack
-		//3 - pray 25% chance to heal
+		//3 - pray +1 hp - can be disrupted by an attack (godess art?)
 		printf(BOLD CYAN "\n What will you do?" RESET);
-		printf(YELLOW "\n 1. = attack TWICE\n 2. = try to dodge and attack\n 3. pray" RESET);
-		getchar();
-
-
-
+		printf(YELLOW "\n 1. ATTACK twice\n 2. try to DODGE and then ATTACK\n 3. PRAY" RESET);
+		PLAYER_decision_roud = input_int(1, 3);
 
 
 		//tank decides what to do
@@ -506,20 +515,98 @@ int tank_fight(){
 		if(MAUS_lives < max_MAUS_lives){
 			decide_chance = rand() % 100;
 			if(decide_chance > 65){
-				decision_roud = 1;
+				MAUS_decision_roud = 1;
 			}
 			else{
-				decision_roud = 2;
+				MAUS_decision_roud = 2;
 			}
 		}
 		else{
-			decision_roud = 2;
+			MAUS_decision_roud = 2;
 		}
 
 		//stuff happens
+		switch(MAUS_decision_roud){
+			case 1://heal
+				printf(YELLOW "\n The tank tries to reinforce its hull" RESET);
 
+				switch(PLAYER_decision_roud){
+					case 1://attacked
+						printf(GREEN "\n Ambush it while its distracted!" RESET);
+						MAUS_lives = MAUS_lives - dmg_TANK(); //outputs dmg dealt?
+						clear_screen();
+						printf(GREEN "\n Attack it again!" RESET);
+						MAUS_lives = MAUS_lives - dmg_TANK(); //outputs dmg dealt?
+					break;
+					case 2://do a at
+						printf(YELLOW "\n Theres nothing to dodge..." RESET);
+						printf(GREEN "\n Ambush it while its distracted!" RESET);
+						MAUS_lives = MAUS_lives - dmg_TANK(); //outputs dmg dealt?
+					break;
+					case 3://pray
+						printf(YELLOW "\n You use this chance to pray to BENJAMIN NETENYAHU" RESET);
+						printf("\n.");
+						Sleep(500);
+						printf("\n.");
+						Sleep(500);
+						printf("\n.");
+						Sleep(500);
+						printf("\n.");
+						Sleep(500);
 
+						decide_chance = rand() % 100;
+						if(decide_chance > 65){
+							printf(GREEN "\n The jewish spirit within you blooms\n Healed 1 HP!" RESET);
+							PLAYER_lives++;
+						}
+						else{
+							printf(RED "\n Nothing happends..." RESET);
+						}
+					break;
+				}
+			break;
+			case 2://at
+				printf(YELLOW "\n The tank aims its cannon in your direction" RESET);
+				if(MAUS_lives < max_MAUS_lives/2){
+					printf(RED " angrily" RESET);
+				}
 
+				switch(PLAYER_decision_roud){
+					case 1:
+						printf(YELLOW"\n The tank attempts to fire at you");
+						decide_chance = rand() % 100;
+						decide_chance = decide_chance - (i_armor_count*10); //idk jesti fachci - melo by zmensut sanci na hit
+						if(decide_chance >30){
+							printf(RED "\n The tank fires and the tank round hits you!"RESET);
+							if(d_armor_count <1){ //no dia
+								printf(RED "\n You lose %dhp"RESET, tank_attack_dmg);
+								PLAYER_lives = PLAYER_lives - tank_attack_dmg;
+							}
+							else{ //dia
+								printf(RED "\n You lose %dhp"RESET, tank_attack_dmg / 2);
+								PLAYER_lives = PLAYER_lives - tank_attack_dmg / 2;
+							}
+						}
+
+						printf("\n Your turn to attack! give him back what he deserves!");
+						MAUS_lives = MAUS_lives - dmg_TANK(); //outputs dmg dealt?
+						clear_screen();
+
+						printf("\n Attack again once more!");
+						MAUS_lives = MAUS_lives - dmg_TANK(); //outputs dmg dealt?
+						clear_screen();
+					break;
+					case 2:
+						printf("\nWIP");
+					break;
+					case 3:
+						printf("\nWIP");
+					break;
+				}
+				
+
+			break;
+		}
 
 
 	} while(PLAYER_lives > 0); //main do while cycyle end
@@ -564,7 +651,7 @@ void samurai_fight(int *boss_hp, int *player_hp, int i_chestplate, int i_helmet,
     }
 
     printf(CYAN "Boss HP: %d | Your HP: %d\n" RESET, *boss_hp, *player_hp);
-    printf(YELLOW " 1. ATTACK\n 2. DODGE\n 3. DEFEND\n" RESET);
+    printf(YELLOW " 1. ATTACK\n 2. DODGE\n 3. DEFEND" RESET);
 
     p_attack = input_int(1, 3);
 
@@ -843,11 +930,11 @@ int getdatapls(int * player_hp_fighting, int * leather, int * wool, int * wood, 
 		strcat(voleni_file_jmeno_tricetpet, ".txt");
 		fptr_fce = fopen(voleni_file_jmeno_tricetpet, "r");
 			if(fptr_fce == NULL){
-				printf("UNABLE TO OPEN SAVE (it prob. doesnt exit)");
-				printf("TRY AGAIN?\n 1. YES\n 2. NO (start new game)\n");
+				printf(" UNABLE TO OPEN SAVE (it prob. doesnt exit)");
+				printf(" TRY AGAIN?\n 1. YES\n 2. NO (start new game)\n");
 				int retry = input_int(1, 2);
 				if(retry == 2){
-					printf("DATA NOT LOADED, STARTING NEW GAME");
+					printf("\n DATA NOT LOADED, STARTING NEW GAME");
 					return 0;
 				}
 				else{
@@ -967,7 +1054,7 @@ int main()
 		switch (volim) {
 		case 0:
 			printf(RED " \nSAVE 'N QUIT?\n" RESET);
-			printf(YELLOW " 1. SAVE\n 2. DONT SAVE\n 3. BACK\n" RESET);
+			printf(YELLOW " 1. SAVE\n 2. DONT SAVE\n 3. BACK" RESET);
 			valid = input_int(1, 3);
 			if (valid == 1) {
 				char voleni_file_jmeno[30];
@@ -997,7 +1084,7 @@ int main()
 			switch (volba_craft) {
 
 			case 1: // helmet
-				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back\n" RESET);
+				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
 				crafting_mat_volba = input_int(0, 2);
 				if (crafting_mat_volba == 1) {
 					if (iron >= 5 && i_helmet != 1) {
@@ -1025,7 +1112,7 @@ int main()
 				break;
 
 			case 2: // chestplate
-				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back\n" RESET);
+				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
 				crafting_mat_volba = input_int(0, 2);
 				if (crafting_mat_volba == 1) {
 					if (iron >= 8 && i_chestplate != 1) {
@@ -1053,7 +1140,7 @@ int main()
 				break;
 
 			case 3: // leggings
-				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back\n" RESET);
+				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
 				crafting_mat_volba = input_int(0, 2);
 				if (crafting_mat_volba == 1) {
 					if (iron >= 7 && i_leggings != 1) {
@@ -1081,7 +1168,7 @@ int main()
 				break;
 
 			case 4: // boots
-				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back\n" RESET);
+				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
 				crafting_mat_volba = input_int(0, 2);
 				if (crafting_mat_volba == 1) {
 					if (iron >= 4 && i_boots != 1) {
@@ -1109,7 +1196,7 @@ int main()
 				break;
 
 			case 5: // sword
-				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back\n" RESET);
+				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
 				crafting_mat_volba = input_int(0, 2);
 				if (crafting_mat_volba == 1) {
 					if (iron >= 2 && i_sword != 1 && wood >= 2) {
@@ -1141,7 +1228,7 @@ int main()
 				break;
 
 			case 6: // pickaxe
-				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back\n" RESET);
+				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
 				crafting_mat_volba = input_int(0, 2);
 				if (crafting_mat_volba == 1) {
 					if (iron >= 3 && i_pickaxe != 1 && wood >= 2) {
@@ -1173,7 +1260,7 @@ int main()
 				break;
 
 			case 7: // axe
-				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back\n" RESET);
+				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
 				control = 0;
 				crafting_mat_volba = input_int(0, 2);
 				if (crafting_mat_volba == 1) {
@@ -1372,7 +1459,7 @@ int main()
                     
                     case 2: printf(GREEN "You chose mage boss!\n" RESET); break;
                     case 3: 
-						tank_fight();
+						tank_fight(i_armor_count, d_armor_count);
 					break;
                     case 4: printf(GREEN "You chose assassin boss!\n" RESET); break;
                 } // end boss_fight_volba switch
