@@ -1,14 +1,15 @@
-//POMOC POMOC POMOC POMOC - verze 11.0 (mage s  dlescreen, samurai) verze 10.0 (tank, mlib, art) verze 9.0 (dice, phub) verze 8.0(old samuraj) verze 7.0 (healy, dice art(1)) verze 6.0 (bug fixes, vic v inv, crafting recepies, easy loadovani saveu) verze 5.0 (vic v inv, crafting recepies, easy loadovani saveu) verze 4.1(==SAVEOVANI==, UTF - 8 text vsude - ta setconsoleoutput fce v main, 2x kosticek,SHEEP ART, SKELL ART and ZOMBIE ART) 3.0 (clear screen + menu boss) + 2.0(plains + encounter + counterattack) 1.0(+ crafting armor/weapons + barvy + input int/string + inventory)
+//POMOC POMOC POMOC POMOC - verze 11.0 (mage s  dlescreen, samurai, random boss) verze 10.0 (tank, mlib, art) verze 9.0 (dice, phub) verze 8.0(old samuraj) verze 7.0 (healy, dice art(1)) verze 6.0 (bug fixes, vic v inv, crafting recepies, easy loadovani saveu) verze 5.0 (vic v inv, crafting recepies, easy loadovani saveu) verze 4.1(==SAVEOVANI==, UTF - 8 text vsude - ta setconsoleoutput fce v main, 2x kosticek,SHEEP ART, SKELL ART and ZOMBIE ART) 3.0 (clear screen + menu boss) + 2.0(plains + encounter + counterattack) 1.0(+ crafting armor/weapons + barvy + input int/string + inventory)
 //NAPADY - 
 //       - dum? - zahrada, crafting table, furnace, animal farmu [village? - stardew valley npccka? item trade?]
 //       - trophy room pro boss fighty? (soucasti domu?)
 // stehlik mrda dvanactky
-//		
+//		po cleanbuff v attack se musi mackat enter
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
 #include <windows.h>
+#include <sys/time.h>
 #include "mlib.h"
 #include "art.h"
 //UNPUTY
@@ -457,12 +458,61 @@ int encounter(int chosen_mon, int d_sword, int i_sword, int * leather, int * woo
 int dodge_TANK(){
 	//zapamatovani beatu?
 }
-int dmg_TANK(){
+int dmg_TANK(){ //vracet dmg
 	//pocitat milisekundy od 321 ted?
-	printf("\n attack");
+	struct timeval start, stop;
+	char naps_att[100] = {0};
+	int factcheck = 0;
+	printf(YELLOW "\n You get ready for an attack\n (type attack after 321 go)" RESET);
+	printf(RED "\n Are you ready?" RESET);
 	getchar();
-	//printf dealt x dmg
-	return 1;
+	printf(BOLD CYAN "\n type attack in\n" RESET);
+	printf(RED "3\n" RESET);
+	Sleep(1000);
+	printf(RED "2\n" RESET);
+	Sleep(1000);
+	printf(RED "1\n" RESET);
+	Sleep(1050); 
+	
+	gettimeofday(&start, NULL);
+	printf(GREEN "GO! : " RESET);
+	do{
+		input_string(naps_att, sizeof(naps_att), "");
+		factcheck = strcmp("attack", naps_att);
+		if(factcheck != 0){
+			printf(BOLD RED "\n wrong input\n Try again: " RESET);
+		}
+		else{
+			break;
+		}
+	}while(factcheck != 0);
+
+	gettimeofday(&stop, NULL);
+	// Calculate total elapsed time in microseconds
+    long long start_usec = (long long)start.tv_sec * 1000000 + start.tv_usec;
+    long long stop_usec = (long long)stop.tv_sec * 1000000 + stop.tv_usec;
+    long long elapsed_usec = stop_usec - start_usec;
+
+	// Convert to seconds and remaining milliseconds
+    long seconds = elapsed_usec / 1000000;
+    long milliseconds = (elapsed_usec % 1000000) / 1000;
+
+	printf("Ended at %ld seconds and %ld milliseconds\n", seconds, milliseconds);
+	printf("%lld", elapsed_usec);
+	if(elapsed_usec < 1000000){
+		printf(BOLD GREEN "\n CRITICAL HIT!");
+		return 2;
+	}
+	else if(elapsed_usec < 3000000){
+		printf(GREEN "\n ATTACK HIT" RESET);
+		return 1;
+	}
+	else{
+		printf(GREEN "\n ATTACK MISSED" RESET);
+		return 0;
+	}
+	
+	
 }
 int tank_fight(int i_armor_count, int d_armor_count){
 	int PLAYER_lives = 4;				//PLAYER
