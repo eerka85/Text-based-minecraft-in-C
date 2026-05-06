@@ -1,9 +1,9 @@
-//POMOC POMOC POMOC POMOC - verze 10.0 (tank, mlib, art) verze 9.0 (dice, phub) verze 8.0(old samuraj) verze 7.0 (healy, dice art(1)) verze 6.0 (bug fixes, vic v inv, crafting recepies, easy loadovani saveu) verze 5.0 (vic v inv, crafting recepies, easy loadovani saveu) verze 4.1(==SAVEOVANI==, UTF - 8 text vsude - ta setconsoleoutput fce v main, 2x kosticek,SHEEP ART, SKELL ART and ZOMBIE ART) 3.0 (clear screen + menu boss) + 2.0(plains + encounter + counterattack) 1.0(+ crafting armor/weapons + barvy + input int/string + inventory)
+//POMOC POMOC POMOC POMOC - verze 11.0 (mage s  dlescreen, samurai) verze 10.0 (tank, mlib, art) verze 9.0 (dice, phub) verze 8.0(old samuraj) verze 7.0 (healy, dice art(1)) verze 6.0 (bug fixes, vic v inv, crafting recepies, easy loadovani saveu) verze 5.0 (vic v inv, crafting recepies, easy loadovani saveu) verze 4.1(==SAVEOVANI==, UTF - 8 text vsude - ta setconsoleoutput fce v main, 2x kosticek,SHEEP ART, SKELL ART and ZOMBIE ART) 3.0 (clear screen + menu boss) + 2.0(plains + encounter + counterattack) 1.0(+ crafting armor/weapons + barvy + input int/string + inventory)
 //NAPADY - 
 //       - dum? - zahrada, crafting table, furnace, animal farmu [village? - stardew valley npccka? item trade?]
 //       - trophy room pro boss fighty? (soucasti domu?)
 // stehlik mrda dvanactky
-//is ts working branch?
+//		
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -141,9 +141,6 @@ void menu_boss(){
 	clear_screen();
 	printf (BOLD CYAN "=== BOSS FIGHT MENU === \n" RESET);
 	printf (YELLOW " 1. LEVEL - 1\n 2. LEVEL - 2\n 3. LEVEL - 3\n 4. LEVEL - 4\n 5. RANDOM LEVEL\n 0. BACK" RESET);
-}
-void boss_menu() {
-    printf(BOLD CYAN "\n=== BOSS FIGHT MENU ===\n" RESET);
 }
 void colours (char crystal) {
     switch (crystal) {
@@ -1354,7 +1351,7 @@ int main()
 
         break;
         case 1:
-			boss_menu();
+			menu_boss();
 			volba_boss = input_int(0, 5);
 
 			switch (volba_boss) {
@@ -1403,8 +1400,9 @@ int main()
 					}
 					break;
 
-				case 5: { // random
-					int random_boss = rand() % 4 + 1;
+				case 5:  // random
+					int random_boss = rand() % 4;
+					random_boss++;
 					boss_hp = 100;
 					player_hp = 100;
 					switch (random_boss) {
@@ -1428,6 +1426,10 @@ int main()
 							tank_fight(i_armor_count, d_armor_count);
 						case 4:
 							while (boss_hp > 0 && player_hp > 0) {
+
+								printf("WIP...");
+								break;
+
 								assassin_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,
 												d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
 								if (player_hp <= 0) { printf(RED "\nYou were defeated by the assassin!\n" RESET); break; }
@@ -1435,9 +1437,9 @@ int main()
 							}
 							break;
 					}
-					break;
-				}
-			}
+				break;
+				
+			} //end switch
 		break; //break case 1 bossove
 
         case 2: // explore
