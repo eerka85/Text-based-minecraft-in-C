@@ -647,7 +647,24 @@ int tank_fight(int i_armor_count, int d_armor_count){
 						printf("\nWIP");
 					break;
 					case 3:
-						printf("\nWIP");
+						printf(YELLOW "\n You use this chance to pray to BENJAMIN NETENYAHU" RESET);
+						printf("\n.");
+						Sleep(500);
+						printf("\n.");
+						Sleep(500);
+						printf("\n.");
+						Sleep(500);
+						printf("\n.");
+						Sleep(500);
+
+						decide_chance = rand() % 100;
+						if(decide_chance > 65){
+							printf(GREEN "\n The jewish spirit within you blooms\n Healed 1 HP!" RESET);
+							PLAYER_lives++;
+						}
+						else{
+							printf(RED "\n Nothing happends..." RESET);
+						}
 					break;
 				}
 				
