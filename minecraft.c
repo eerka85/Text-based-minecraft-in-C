@@ -457,7 +457,10 @@ int encounter(int chosen_mon, int d_sword, int i_sword, int * leather, int * woo
 }
 //BOSSOVE 
 int dodge_TANK(){
-	//zapamatovani beatu?
+	//zapamatovani beatu? 
+	//vygeneruje beat a b b a 
+	//uzivatel musi zopakovat
+	//podle ryvhlosti vetsi sance na dodge?
 }
 int dmg_TANK(){ //vracet dmg
 	//pocitat milisekundy od 321 ted?
@@ -518,7 +521,7 @@ int dmg_TANK(){ //vracet dmg
 	
 	
 }
-int tank_fight(int i_armor_count, int d_armor_count){
+int tank_fight(int i_armor_count, int d_armor_count){ //idk jestli se hodi mezi ostatni bossfighty...
 	int PLAYER_lives = 4;				//PLAYER
 	int max_PLAYER_lives = PLAYER_lives;
 	int PLAYER_decision_roud = 0;
