@@ -777,6 +777,8 @@ void mage_fight(int *boss_hp, int *player_hp, int i_chestplate, int i_helmet, in
     colours(crystal[0]);
     colours(crystal[1]);
     colours(crystal[2]);
+	printf ("\n");
+	del_screen();
 
     while (*boss_hp > 0 && *player_hp > 0) {
         p_crit_chance = rand() % 100;
@@ -791,11 +793,12 @@ void mage_fight(int *boss_hp, int *player_hp, int i_chestplate, int i_helmet, in
             crystal[0] = (rand() % 3 == 0) ? 'R' : (rand() % 2 == 0) ? 'P' : 'B';
             crystal[1] = (rand() % 3 == 0) ? 'R' : (rand() % 2 == 0) ? 'P' : 'B';
             crystal[2] = (rand() % 3 == 0) ? 'R' : (rand() % 2 == 0) ? 'P' : 'B';
+			printf ("\n");
             colours(crystal[0]);
             colours(crystal[1]);
             colours(crystal[2]);
             printf ("\n");
-            //delete_screen();
+            del_screen();
         }
         printf (CYAN"1. Attack\n0. Quit\n" RESET);
         p_attack = input_int(0, 1);
