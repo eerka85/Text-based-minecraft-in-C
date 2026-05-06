@@ -614,7 +614,8 @@ int tank_fight(int i_armor_count, int d_armor_count){
 	exit(0);
 }
 
-void samurai_fight(int *boss_hp, int *player_hp, int i_chestplate, int i_helmet, int i_leggings, int i_boots, int d_chestplate, int d_helmet, int d_leggings, int d_boots, int d_sword, int i_sword) {
+void samurai_fight(int *boss_hp, int *player_hp, int i_chestplate, int i_helmet, int i_leggings, int i_boots,
+                   int d_chestplate, int d_helmet, int d_leggings, int d_boots, int d_sword, int i_sword) {
     int p_attack = 0;
     int damage = 0;
     int p_crit_chance = 0;
@@ -624,274 +625,275 @@ void samurai_fight(int *boss_hp, int *player_hp, int i_chestplate, int i_helmet,
     int i_armor = 0;
     int d_armor = 0;
 
-    if (i_helmet > 0) {
-        i_armor += 1;
-    }
-    if (i_chestplate > 0) {
-        i_armor += 1;
-    }
-    if (i_leggings > 0) {
-        i_armor += 1;
-    }
-    if (i_boots > 0) {
-        i_armor += 1;
-    }
+    if (i_helmet > 0)     i_armor += 1;
+    if (i_chestplate > 0) i_armor += 1;
+    if (i_leggings > 0)   i_armor += 1;
+    if (i_boots > 0)      i_armor += 1;
 
-    if (d_helmet > 0) {
-        d_armor += 1;
-    }
-    if (d_chestplate > 0) {
-        d_armor += 1;
-    }
-    if (d_leggings > 0) {
-        d_armor += 1;
-    }
-    if (d_boots > 0) {
-        d_armor += 1;
-    }
+    if (d_helmet > 0)     d_armor += 1;
+    if (d_chestplate > 0) d_armor += 1;
+    if (d_leggings > 0)   d_armor += 1;
+    if (d_boots > 0)      d_armor += 1;
 
     printf(CYAN "Boss HP: %d | Your HP: %d\n" RESET, *boss_hp, *player_hp);
-    printf(YELLOW " 1. ATTACK\n 2. DODGE\n 3. DEFEND" RESET);
+    printf(YELLOW " 1. ATTACK\n 0. QUIT\n" RESET);
 
-    p_attack = input_int(1, 3);
+    p_attack = input_int(0, 1);
 
-    p_crit_chance = rand() % 100;
+    p_crit_chance  = rand() % 100;
     p_dodge_chance = rand() % 100;
-    b_crit_chance = rand() % 100;
+    b_crit_chance  = rand() % 100;
     b_dodge_chance = rand() % 100;
 
     switch (p_attack) {
-		case 1:
-			if (p_crit_chance <= 20) {
-				damage = 2;
-				*boss_hp -= damage;
-				printf(GREEN "Good hit! You hit the samurai for %d damage!\n" RESET, damage);
-			} 
-			else {
-				damage = 1;
-				*boss_hp -= damage;
-				printf(YELLOW "You hit the samurai for %d damage!\n" RESET, damage);
-			}
-			/*}
-			else {
-				if (p_crit_chance <= 20) {
-	                damage = 2;
-	                *boss_hp -= damage;
-	                printf(GREEN "Critical hit! You hit the samurai for %d damage!\n" RESET, damage);
-	            } else {
-	                damage = 2;
-	                *boss_hp -= damage;
-	                printf(GREEN "Good hit! You hit the samurai for %d damage!\n" RESET, damage);
-	            }
-	        }*/
-		break;
+        case 1:
+            damage = 1;
+            if (d_sword > 0) {
+                damage += 3;
+            } else if (i_sword > 0) {
+                damage += 1;
+            }
+            if (p_crit_chance <= 20) {
+                damage *= 2;
+                printf(GREEN "Critical Hit! You dealt %d damage.\n" RESET, damage);
+            } else {
+                printf(GREEN "You dealt %d damage.\n" RESET, damage);
+            }
+            *boss_hp -= damage;
+            printf(RED "Boss HP: %d | Your HP: %d\n" RESET, *boss_hp, *player_hp);
+            break;
 
-		case 2:
-			if (i_armor > 0) {
-				if (p_dodge_chance <= 20) {
-					printf(GREEN "You successfully dodged the samurai's attack!\n" RESET);
-					printf(GREEN "You have %d health remaining!\n" RESET, *player_hp);
-				} 
-				else if (p_dodge_chance > 20 && p_dodge_chance <= 50) {
-					damage = 2;
-					printf(RED "You got grazed trying to dodge the samurai's attack!\n" RESET);
-					printf(RED "You got hit for %d damage!\n" RESET, damage);
-					*player_hp -= damage;
-					printf(RED "You have %d health remaining!\n" RESET, *player_hp);
-				} 
-				else{
-					damage = 3;
-					printf(RED "You failed to dodge the samurai's attack!\n" RESET);
-					printf(RED "You got hit for %d damage!\n" RESET, damage);
-					*player_hp -= damage;
-					printf(RED "You have %d health remaining!\n" RESET, *player_hp);
-				}
-				break;
-			}
-		//break;
-			else if (d_armor > 0) {
-				if (p_dodge_chance <= 20) {
-					printf(GREEN "You successfully dodged the samurai's attack!\n" RESET);
-					printf(GREEN "You have %d health remaining!\n" RESET, *player_hp);
-				}
-				else if (p_dodge_chance > 20 && p_dodge_chance <= 50) {
-					damage = 1;
-					printf(RED "You got grazed trying to dodge the samurai's attack!\n" RESET);
-					printf(RED "You got hit for %d damage!\n" RESET, damage);
-					*player_hp -= damage;
-					printf(RED "You have %d health remaining!\n" RESET, *player_hp);
-				} 
-				else {
-					damage = 2;
-					printf(RED "You failed to dodge the samurai's attack!\n" RESET);
-					printf(RED "You got hit for %d damage!\n" RESET, damage);
-					*player_hp -= damage;
-					printf(RED "You have %d health remaining!\n" RESET, *player_hp);
-				}
-				break;
-			}
-		//break;
-			else{
-				if (p_dodge_chance <= 20) {
-					printf(GREEN "You successfully dodged the samurai's attack!\n" RESET);
-					printf(GREEN "You have %d health remaining!\n" RESET, *player_hp);
-				}
-				else if (p_dodge_chance > 20 && p_dodge_chance <= 50) {
-					damage = 3;
-					printf(RED "You got grazed trying to dodge the samurai's attack!\n" RESET);
-					printf(RED "You got hit for %d damage!\n" RESET, damage);
-					*player_hp -= damage;
-					printf(RED "You have %d health remaining!\n" RESET, *player_hp);
-				} 
-				else {
-					damage = 4;
-					printf(RED "You failed to dodge the samurai's attack!\n" RESET);
-					printf(RED "You got hit for %d damage!\n" RESET, damage);
-					*player_hp -= damage;
-					printf(RED "You have %d health remaining!\n" RESET, *player_hp);
-				}
-			}
-		break;
+        case 0:
+         *boss_hp = 0;
+            if (b_crit_chance <= 20) {
+                damage = 10;
+                *player_hp -= damage;
+                printf(RED "Boss lands a hit while you try to escape! You took %d damage.\n" RESET, damage);
+                return;
+            } else if (b_crit_chance <= 60) {
+                damage = 5;
+                *player_hp -= damage;
+                printf(RED "Boss lands a hit while you try to escape! You took %d damage.\n" RESET, damage);
+                return;
+            } else {
+                damage = 0;
+                printf(GREEN "Boss tried to hit you while you escaped but missed!\n" RESET);
+                return;
+            }
+    }
+    if (*player_hp <= 0) {
+        printf(RED "\nYou were defeated by the samurai!\n" RESET);
+        return;
+        } 
+        else if (*boss_hp <= 0) {
+        printf(GREEN "\nYou defeated the samurai!\n" RESET);
+        return;
+        }
 
-		case 3:
-			if (i_armor > 0) {
-				damage = 2;
-				printf(YELLOW "You defend against the samurai's attack, reducing the damage by 50%%!\n" RESET);
-				printf(RED "You got hit for %d damage!\n" RESET, damage);
-				*player_hp -= damage;
-				printf(RED "You have %d health remaining!\n" RESET, *player_hp);
-				break; 
-			}
-			else if (d_armor > 0) {
-				damage = 1;
-				printf(YELLOW "You defend against the samurai's attack, reducing the damage by 50%%!\n" RESET);
-				printf(RED "You got hit for %d damage!\n" RESET, damage);
-				*player_hp -= damage;
-				printf(RED "You have %d health remaining!\n" RESET, *player_hp);
-				break; 
-			}
-			else{
-				damage = 3;
-				printf(YELLOW "You defend against the samurai's attack, reducing the damage by 50%%!\n" RESET);
-				printf(RED "You got hit for %d damage!\n" RESET, damage);
-				*player_hp -= damage;
-				printf(RED "You have %d health remaining!\n" RESET, *player_hp);
-				break; 
-			}
-		break;
-	}
+    printf(RED "Boss attacks!\n" RESET);
+    printf(YELLOW "\n 1. Dodge\n 2. Block\n" RESET);
+    p_attack = input_int(1, 2);
 
-	if (p_attack == 1) {
-		if (i_armor > 0) {
-				if (b_crit_chance <= 20) {
-					damage = 4;
-					printf(RED "The samurai lands a critical hit on you for %d damage!\n" RESET, damage);
-					*player_hp -= damage;
-				} 
-				else if (b_crit_chance > 20 && b_crit_chance <= 50) {
-					damage = 2;
-					printf(RED "The samurai hits you for %d damage!\n" RESET, damage);
-					*player_hp -= damage;
-				} 
-				else{
-					printf(GREEN "The samurai's attack missed!\n" RESET);
-				}
-		}//NOVY
-		else if (d_armor > 0) {
-				if (b_crit_chance <= 20) {
-					damage = 2;
-					printf(RED "The samurai lands a critical hit on you for %d damage!\n" RESET, damage);
-					*player_hp -= damage;
-				} 
-				else if (b_crit_chance > 20 && b_crit_chance <= 50) {
-					damage = 1;
-					printf(RED "The samurai hits you for %d damage!\n" RESET, damage);
-					*player_hp -= damage;
-				} 
-				else{
-					printf(GREEN "The samurai's attack missed!\n" RESET);
-				}
-		}
-		else{//NOVY
-				if (b_crit_chance <= 20) {
-					damage = 6;
-					printf(RED "The samurai lands a critical hit on you for %d damage!\n" RESET, damage);
-					*player_hp -= damage;
-				} 
-				else if (b_crit_chance > 20 && b_crit_chance <= 50) {
-					damage = 3;
-					printf(RED "The samurai hits you for %d damage!\n" RESET, damage);
-					*player_hp -= damage;
-				} 
-				else{
-					printf(GREEN "The samurai's attack missed!\n" RESET);
-				}
-		}
-	}	
-	else if (p_attack == 2) {
-		//nemusime? ig
-	}
-	/* else if (p_attack == 3) {
-        if (b_crit_chance <= 20) {
-            damage = 2;
-            printf(RED "The samurai lands a critical hit on you for %d damage, but you defended against it!\n" RESET, damage);
-            *player_hp -= damage;
-        } else if (b_crit_chance > 20 && b_crit_chance <= 50) {
-            damage = 0;
-            printf(RED "The samurai hits you for %d damage, but you defended against it!\n" RESET, damage);
-            *player_hp -= damage;
-        } else {
-            printf(GREEN "The samurai's attack missed!\n" RESET);
-        }
-     }
-    }
-    
-    if (d_armor > 0) {
-        if (b_crit_chance <= 20) {
-            damage = 3;
-            printf(RED "The samurai lands a critical hit on you for %d damage!\n" RESET, damage);
-            *player_hp -= damage;
-        } else if (b_crit_chance > 20 && b_crit_chance <= 50) {
-            damage = 1;
-            printf(RED "The samurai hits you for %d damage!\n" RESET, damage);
-            *player_hp -= damage;
-        } else {
-            printf(GREEN "The samurai's attack missed!\n" RESET);
-            else if (p_attack == 2) {
-        }
-     else if (p_attack == 3) {
-        if (b_crit_chance <= 20) {
-            damage = 1;
-            printf(RED "The samurai lands a critical hit on you for %d damage, but you defended against it!\n" RESET, damage);
-            *player_hp -= damage;
-        } else if (b_crit_chance > 20 && b_crit_chance <= 50) {
-            damage = 0;
-            printf(RED "The samurai hits you for %d damage, but you defended against it!\n" RESET, damage);
-            *player_hp -= damage;
-        } else {
-            printf(GREEN "The samurai's attack missed!\n" RESET);
-        }
-     }
-        }
-    }
-    
-    else if (p_attack == 2) {
-        }
-     else if (p_attack == 3) {
-        if (b_crit_chance <= 20) {
-            damage = 3;
-            printf(RED "The samurai lands a critical hit on you for %d damage, but you defended against it!\n" RESET, damage);
-            *player_hp -= damage;
-        } else if (b_crit_chance > 20 && b_crit_chance <= 50) {
-            damage = 0;
-            printf(RED "The samurai hits you for %d damage, but you defended against it!\n" RESET, damage);
-            *player_hp -= damage;
-        } else {
-            printf(GREEN "The samurai's attack missed!\n" RESET);
-        }*/
+    switch (p_attack) {
+        case 1:
+            if (p_dodge_chance <= 30) {
+                printf(GREEN "You successfully dodged the attack!\n" RESET);
+            } else if (p_dodge_chance <= 60) {
+                damage = 2;
+                *player_hp -= damage;
+                printf(RED "Dodge failed! You took %d damage.\n" RESET, damage);
+            } else {
+                damage = 5;
+                *player_hp -= damage;
+                printf(RED "Dodge failed completely! You took %d damage.\n" RESET, damage);
+            }
+            break;
+        case 2:
+            if (b_crit_chance <= 20) {
+                damage = 2;
+                *player_hp -= damage;
+                printf(GREEN "You partially blocked the attack! Damage reduced to %d.\n" RESET, damage);
+            } else {
+                damage = 0;
+                printf(GREEN "You successfully blocked the attack!\n" RESET);
+            }
+            break;
+  
+    }
+
 }
 
+void mage_fight(int *boss_hp, int *player_hp, int i_chestplate, int i_helmet, int i_leggings, int i_boots, int d_chestplate, int d_helmet, int d_leggings, int d_boots, int d_sword, int i_sword) {
+    int p_attack = 0;
+    int damage = 0;
+    int p_crit_chance = 0;
+    int p_dodge_chance = 0;
+    int b_crit_chance = 0;
+    int b_dodge_chance = 0;
+    int i_armor = 0;
+    int d_armor = 0;
+    int attack = 0;
+    int cycle = 0;
+    int round = 0;
+    int crystal1_hp = 30;
+    int crystal2_hp = 30;
+    int crystal3_hp = 30;
 
+    if (i_helmet > 0)     i_armor += 1;
+    if (i_chestplate > 0) i_armor += 1;
+    if (i_leggings > 0)   i_armor += 1;
+    if (i_boots > 0)      i_armor += 1;
+
+    if (d_helmet > 0)     d_armor += 1;
+    if (d_chestplate > 0) d_armor += 1;
+    if (d_leggings > 0)   d_armor += 1;
+    if (d_boots > 0)      d_armor += 1;
+
+    
+
+
+
+    int colour_1 = rand() % 3 + 1;
+    int colour_2 = rand() % 3 + 1;
+    int colour_3 = rand() % 3 + 1;
+
+    char crystal_1 = (colour_1 == 1) ? 'R' : (colour_1 == 2) ? 'P' : 'B';
+    char crystal_2 = (colour_2 == 1) ? 'R' : (colour_2 == 2) ? 'P' : 'B';
+    char crystal_3 = (colour_3 == 1) ? 'R' : (colour_3 == 2) ? 'P' : 'B';
+
+    char crystal[3] = {crystal_1, crystal_2, crystal_3};
+    
+
+    
+
+    printf(CYAN "The mage used magic to block your attack!\n" RESET);
+    printf(CYAN "The mage has casted his HP crystals, break his crystals to kill him!\n" RESET);
+    printf(BLUE "If a crystal is blue, the mage casted an ice attack, you need to defend!\n" RESET);
+    printf(RED "If a crystal is red, the mage casted a fire attack, you need to dodge!\n" RESET);
+    printf(PURPLE "If a crystal is purple, the mage casted a shadow attack, you need to attack!\n" RESET);
+    printf(YELLOW "Quick! Memorise the colours of the crystals!\n" RESET);
+
+    printf(YELLOW "The crystals are:\n" RESET);
+    colours(crystal[0]);
+    colours(crystal[1]);
+    colours(crystal[2]);
+
+    while (*boss_hp > 0 && *player_hp > 0) {
+        p_crit_chance = rand() % 100;
+        b_crit_chance = rand() % 100; 
+
+        if (*boss_hp <= 0) {
+            printf(GREEN "\nYou defeated the great mage!\n" RESET);
+            return;
+        }
+        
+        if (round > 0 && round % 3 == 0) {
+            crystal[0] = (rand() % 3 == 0) ? 'R' : (rand() % 2 == 0) ? 'P' : 'B';
+            crystal[1] = (rand() % 3 == 0) ? 'R' : (rand() % 2 == 0) ? 'P' : 'B';
+            crystal[2] = (rand() % 3 == 0) ? 'R' : (rand() % 2 == 0) ? 'P' : 'B';
+            colours(crystal[0]);
+            colours(crystal[1]);
+            colours(crystal[2]);
+            printf ("\n");
+            //delete_screen();
+        }
+        printf (CYAN"1. Attack\n0. Quit\n" RESET);
+        p_attack = input_int(0, 1);
+        switch (p_attack) {
+        case 1:
+            damage = 1;
+            if (d_sword > 0) {
+                damage += 3;
+            } else if (i_sword > 0) {
+                damage += 1;
+            }
+            if (p_crit_chance <= 20) {
+                damage *= 2;
+                printf(GREEN "Critical Hit! You dealt %d damage.\n" RESET, damage);
+                } 
+                else {
+                printf(GREEN "You dealt %d damage.\n" RESET, damage);
+
+            }
+            printf(RED "Boss HP: %d | Your HP: %d\n" RESET, *boss_hp, *player_hp);
+            if (crystal1_hp > 0) {
+                crystal1_hp -= damage;
+            }
+            else if (crystal2_hp > 0) {
+                crystal2_hp -= damage;
+            }
+            else if (crystal3_hp > 0) {
+                crystal3_hp -= damage;
+            }
+           if (crystal1_hp <= 0 && crystal2_hp <= 0 && crystal3_hp <= 0) {
+                *boss_hp = 0;
+                printf(GREEN "\nYou defeated the mage!\n" RESET);
+                return;
+            }
+            printf(RED"1. crystal HP: %d\n2. crystal HP: %d\n3. crystal HP: %d\n" RESET, crystal1_hp, crystal2_hp, crystal3_hp);
+            break;
+
+        case 0:
+         *boss_hp = 0;
+            if (b_crit_chance <= 20) {
+                damage = 10;
+                *player_hp -= damage;
+                printf(RED "Boss lands a hit while you try to escape! You took %d damage.\n" RESET, damage);
+                return;
+            } else if (b_crit_chance <= 60) {
+                damage = 5;
+                *player_hp -= damage;
+                printf(RED "Boss lands a hit while you try to escape! You took %d damage.\n" RESET, damage);
+                return;
+            } else {
+                damage = 0;
+                printf(GREEN "Boss tried to hit you while you escaped but missed!\n" RESET);
+                return;
+            }
+    }
+        printf(YELLOW "The mage is preparing his next attack!\n" RESET);
+        printf(YELLOW" 1. ATTACK\n 2. DODGE\n 3. DEFEND\n" RESET);
+        p_attack = input_int(1, 3);
+        switch (p_attack) {
+            // Blue - Defend, Red - Dodge, Purple - Attack
+        case 1:
+            if (crystal[cycle % 3] == 'P') {
+                printf(GREEN "You successfully countered the shadow attack!\n" RESET);
+            }
+            else {
+                damage = 2;
+                *player_hp -= damage;
+                printf(RED "Counter failed! You took %d damage.\n" RESET, damage);
+            }
+        break;
+
+        case 2:
+            if (crystal[cycle % 3] == 'R') {
+                printf(GREEN "You successfully dodged the fire attack!\n" RESET);
+            }
+            else {
+                damage = 2;
+                *player_hp -= damage;
+                printf(RED "Dodge failed! You took %d damage.\n" RESET, damage);
+            }
+        break;
+
+        case 3:
+            if (crystal[cycle % 3] == 'B') {
+                printf(GREEN "You successfully defended the ice attack!\n" RESET);
+            }
+            else {
+                damage = 2;
+                *player_hp -= damage;
+                printf(RED "Defend failed! You took %d damage.\n" RESET, damage);
+            }
+        break;
+        }
+        cycle++;
+        round++;
+        attack++;
+    }
+}
 //BIOMY FIGHT
 
 int plains(int d_sword, int i_sword, int * leather, int * wool, int * player_hp_fighting, int i_armor_count, int d_armor_count){
@@ -916,6 +918,9 @@ int plains(int d_sword, int i_sword, int * leather, int * wool, int * player_hp_
         }
     }
     return 0;
+}
+void assassin_fight(int *boss_hp, int *player_hp, int i_chestplate, int i_helmet, int i_leggings, int i_boots, int d_chestplate, int d_helmet, int d_leggings, int d_boots, int d_sword, int i_sword) {
+    printf(CYAN "WIP - You are fighting against the assassin...\n" RESET);
 }
 
 //DATA SAVE
@@ -1343,128 +1348,94 @@ int main()
     volba_fight = input_int(0, 3);
     switch (volba_fight) {
         case 0: // go back
-            break;
-        case 1: // boss fight
-            boss_loop = 1;
-            while (boss_loop == 1) {
-                menu_boss();
-                boss_fight_volba = input_int(0, 5);
 
-                switch (boss_fight_volba) {
-                    case 0: // Back
-                        boss_loop = 0;
-                        break;
-                    case 1: // Boss Selection Menu
-                        boss_menu();
-                        volba_boss = input_int(0, 5);
+        break;
+        case 1:
+			boss_menu();
+			volba_boss = input_int(0, 5);
 
-                        switch (volba_boss) {
-                            case 0:
-                                break;
-                            case 1: // samurai
-                                boss_hp = 100;
-                                player_hp = 100;
-                                printf(CYAN "You are fighting against the samurai...\n" RESET);
-                                while (boss_hp > 0 && player_hp > 0) {
-                                    samurai_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots, d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword); 
-                                    if (player_hp <= 0) {
-                                        printf(RED "\nYou were defeated by the samurai!\n" RESET);
-                                        break;    
-                                    } else if (boss_hp <= 0) {
-                                        printf(GREEN "\nYou defeated the samurai!\n" RESET);
-                                        break;    
-                                    }
-                                }
-                                break;
-                            /*case 2: // mage
-                                boss_hp = 10;
-                                player_hp = 100;
-                                while (boss_hp > 0 && player_hp > 0) {
-                                    mage_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots, d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword); 
-                                    if (player_hp <= 0) {
-                                        printf(RED "\nYou were defeated by the mage!\n" RESET);
-                                        break;    
-                                    } else if (boss_hp <= 0) {
-                                        printf(GREEN "\nYou defeated the mage!\n" RESET);
-                                        break;    
-                                    }
-                                }
-                                break;
-                            case 3: // tank
-                                boss_hp = 200;
-                                player_hp = 100;
-                                while (boss_hp > 0 && player_hp > 0) {
-                                    tank_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots, d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword); 
-                                    if (player_hp <= 0) {
-                                        printf(RED "\nYou were defeated by the tank!\n" RESET);
-                                        break;    
-                                    } else if (boss_hp <= 0) {
-                                        printf(GREEN "\nYou defeated the tank!\n" RESET);
-                                        break;    
-                                    }
-                                }
-                                break;
-                            case 4: // assassin
-                                boss_hp = 100;
-                                player_hp = 100;
-                                while (boss_hp > 0 && player_hp > 0) {
-                                    assassin_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots, d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword); 
-                                    if (player_hp <= 0) {
-                                        printf(RED "\nYou were defeated by the assassin!\n" RESET);
-                                        break;    
-                                    } else if (boss_hp <= 0) {
-                                        printf(GREEN "\nYou defeated the assassin!\n" RESET);
-                                        break;    
-                                    }
-                                }
-                                break;*/
-                            case 5: // random
-                                boss_hp = 100;
-                                player_hp = 100;
-                                int random_boss = rand() % 4 + 1;
-                                switch (random_boss) {
-                                    case 1: // random samurai
-                                        printf(CYAN "You are fighting against the samurai...\n" RESET);
-                                        while (boss_hp > 0 && player_hp > 0) {
-                                            samurai_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots, d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword); 
-                                            if (player_hp <= 0) { break; } 
-                                            else if (boss_hp <= 0) { break; }
-                                        }
-                                        break;
-                                    /*case 2: // random mage
-                                        while (boss_hp > 0 && player_hp > 0) {
-                                            mage_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots, d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword); 
-                                            if (player_hp <= 0) { break; } 
-                                            else if (boss_hp <= 0) { break; }
-                                        }
-                                        break;
-                                    case 3: // random tank
-                                        while (boss_hp > 0 && player_hp > 0) {
-                                            tank_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots, d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword); 
-                                            if (player_hp <= 0) { break; } 
-                                            else if (boss_hp <= 0) { break; }
-                                        }
-                                        break;
-                                    case 4: // random assassin
-                                        while (boss_hp > 0 && player_hp > 0) {
-                                            assassin_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots, d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword); 
-                                            if (player_hp <= 0) { break; } 
-                                            else if (boss_hp <= 0) { break; }
-                                        }
-                                        break;*/
-                                }
-                                break;
-                        } // end volba_boss switch
-                        break; // end case 1 of boss_fight_volba
-                    
-                    case 2: printf(GREEN "You chose mage boss!\n" RESET); break;
-                    case 3: 
-						tank_fight(i_armor_count, d_armor_count);
+			switch (volba_boss) {
+				case 0:
+				break;
+
+				case 1: // samurai
+					boss_hp = 100;
+					player_hp = 100;
+					printf(CYAN "You are fighting against the samurai...\n" RESET);
+					while (boss_hp > 0 && player_hp > 0) {
+						samurai_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
+						
+					}
+				break;
+
+				case 2: // mage
+					boss_hp = 10;
+					player_hp = 100;
+					while (boss_hp > 0 && player_hp > 0) {
+						mage_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots, d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
+						if (player_hp <= 0) {
+							printf(RED "\nYou were defeated by the mage!\n" RESET);
+								break;
+						}
+							
+						} 
+					
 					break;
-                    case 4: printf(GREEN "You chose assassin boss!\n" RESET); break;
-                } // end boss_fight_volba switch
-            } // end boss_loop while
-            break; 
+
+				case 3: // tank
+					tank_fight(i_armor_count, d_armor_count);
+				case 4: // assassin
+					boss_hp = 100;
+					player_hp = 100;
+					while (boss_hp > 0 && player_hp > 0) {
+						assassin_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,
+										d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
+						if (player_hp <= 0) {
+							printf(RED "\nYou were defeated by the assassin!\n" RESET);
+							break;
+						} else if (boss_hp <= 0) {
+							printf(GREEN "\nYou defeated the assassin!\n" RESET);
+							break;
+						}
+					}
+					break;
+
+				case 5: { // random
+					int random_boss = rand() % 4 + 1;
+					boss_hp = 100;
+					player_hp = 100;
+					switch (random_boss) {
+						case 1:
+							printf(CYAN "You are fighting against the samurai...\n" RESET);
+							while (boss_hp > 0 && player_hp > 0) {
+								samurai_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
+								if (player_hp <= 0) { printf(RED "\nYou were defeated by the samurai!\n" RESET); break; }
+								else if (boss_hp <= 0) { printf(GREEN "\nYou defeated the samurai!\n" RESET); break; }
+							}
+							break;
+						case 2:
+							while (boss_hp > 0 && player_hp > 0) {
+								mage_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,
+											d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
+								if (player_hp <= 0) { printf(RED "\nYou were defeated by the mage!\n" RESET); break; }
+								else if (boss_hp <= 0) { printf(GREEN "\nYou defeated the mage!\n" RESET); break; }
+							}
+							break;
+						case 3:
+							tank_fight(i_armor_count, d_armor_count);
+						case 4:
+							while (boss_hp > 0 && player_hp > 0) {
+								assassin_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,
+												d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
+								if (player_hp <= 0) { printf(RED "\nYou were defeated by the assassin!\n" RESET); break; }
+								else if (boss_hp <= 0) { printf(GREEN "\nYou defeated the assassin!\n" RESET); break; }
+							}
+							break;
+					}
+					break;
+				}
+			}
+		break; //break case 1 bossove
 
         case 2: // explore
             valid = plains(d_sword, i_sword, &leather, &wool, &player_hp_fighting, i_armor_count, d_armor_count);
