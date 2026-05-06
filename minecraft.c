@@ -9,6 +9,7 @@
 #include <string.h>
 #include <time.h>
 #include <windows.h>
+#include <conio.h>
 #include <sys/time.h>
 #include "mlib.h"
 #include "art.h"
@@ -474,6 +475,9 @@ int dmg_TANK(){ //vracet dmg
 	printf(RED "1\n" RESET);
 	Sleep(1050); 
 	
+	while(_kbhit()){ //_kbhit vraci tru nebo false jestli je neco v bufferu? myslim idk
+		_getch(); //mrdne vec z bufferu dopici
+	}
 	gettimeofday(&start, NULL);
 	printf(GREEN "GO! : " RESET);
 	do{
@@ -544,6 +548,9 @@ int tank_fight(int i_armor_count, int d_armor_count){
 		if(MAUS_lives <=0){ //win
 			return 0;
 		}
+		if(PLAYER_lives > 4){ //too much HP
+			PLAYER_lives = 4;
+		}
 		printf(RED "\n MAUS HP = %d/%d" RESET, MAUS_lives, max_MAUS_lives);
 		printf(GREEN "\n YOUR HP = %d/%d" RESET, PLAYER_lives, max_PLAYER_lives);
 
@@ -580,15 +587,15 @@ int tank_fight(int i_armor_count, int d_armor_count){
 				switch(PLAYER_decision_roud){
 					case 1://attacked
 						printf(GREEN "\n Ambush it while its distracted!" RESET);
-						MAUS_lives = MAUS_lives - dmg_TANK(); //outputs dmg dealt?
+						MAUS_lives = MAUS_lives - dmg_TANK(); 
 						clear_screen();
 						printf(GREEN "\n Attack it again!" RESET);
-						MAUS_lives = MAUS_lives - dmg_TANK(); //outputs dmg dealt?
+						MAUS_lives = MAUS_lives - dmg_TANK(); 
 					break;
 					case 2://do a at
 						printf(YELLOW "\n Theres nothing to dodge..." RESET);
 						printf(GREEN "\n Ambush it while its distracted!" RESET);
-						MAUS_lives = MAUS_lives - dmg_TANK(); //outputs dmg dealt?
+						MAUS_lives = MAUS_lives - dmg_TANK(); 
 					break;
 					case 3://pray
 						printf(YELLOW "\n You use this chance to pray to BENJAMIN NETENYAHU" RESET);
@@ -602,7 +609,7 @@ int tank_fight(int i_armor_count, int d_armor_count){
 						Sleep(500);
 
 						decide_chance = rand() % 100;
-						if(decide_chance > 65){
+						if(decide_chance > 65){ //vtipny by bylo kdyby vic zlata znamenalo lepsi sance
 							printf(GREEN "\n The jewish spirit within you blooms\n Healed 1 HP!" RESET);
 							PLAYER_lives++;
 						}
@@ -636,17 +643,32 @@ int tank_fight(int i_armor_count, int d_armor_count){
 						}
 
 						printf("\n Your turn to attack! give him back what he deserves!");
-						MAUS_lives = MAUS_lives - dmg_TANK(); //outputs dmg dealt?
+						MAUS_lives = MAUS_lives - dmg_TANK(); 
 						clear_screen();
 
 						printf("\n Attack again once more!");
-						MAUS_lives = MAUS_lives - dmg_TANK(); //outputs dmg dealt?
+						MAUS_lives = MAUS_lives - dmg_TANK(); 
 						clear_screen();
 					break;
 					case 2:
 						printf("\nWIP");
 					break;
 					case 3:
+						printf(YELLOW"\n The tank attempts to fire at you");
+						decide_chance = rand() % 100;
+						decide_chance = decide_chance - (i_armor_count*10); //idk jesti fachci - melo by zmensut sanci na hit
+						if(decide_chance >30){
+							printf(RED "\n The tank fires and the tank round hits you!"RESET);
+							if(d_armor_count <1){ //no dia
+								printf(RED "\n You lose %dhp"RESET, tank_attack_dmg);
+								PLAYER_lives = PLAYER_lives - tank_attack_dmg;
+							}
+							else{ //dia
+								printf(RED "\n You lose %dhp"RESET, tank_attack_dmg / 2);
+								PLAYER_lives = PLAYER_lives - tank_attack_dmg / 2;
+							}
+						}
+
 						printf(YELLOW "\n You use this chance to pray to BENJAMIN NETENYAHU" RESET);
 						printf("\n.");
 						Sleep(500);
