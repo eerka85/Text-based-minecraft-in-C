@@ -10,6 +10,7 @@
 #include <time.h>
 #include <windows.h>
 #include <conio.h>
+#include <conio.h>
 #include <sys/time.h>
 #include "mlib.h"
 #include "art.h"
@@ -55,8 +56,6 @@ void clear_screen() {
 	printf("\033[H\033[2J");
 }
 void del_screen(){
-	printf(BLUE "\n CONTINUE? (press enter)" RESET);
-	getchar();
 	system("cls");
 }
 
@@ -458,9 +457,71 @@ int encounter(int chosen_mon, int d_sword, int i_sword, int * leather, int * woo
 //BOSSOVE 
 int dodge_TANK(){
 	//zapamatovani beatu? 
-	//vygeneruje beat a b b a 
+	//vygeneruje beat a b b a
+	struct timeval start, stop;
+	int velikost_abpol = 7; 
+	char abpol[velikost_abpol];
+	char uzpol[velikost_abpol];
+	int computar = 0;
+	for(int i = 0; i < velikost_abpol-1; i++){ //generovani ababbababbabab
+		abpol[i] = rand() % (98-97 +1) +97;
+	}
+	abpol[velikost_abpol-1] = '\0';
+	printf(YELLOW "\n You get ready for a dodge\n (repeat this 6*a or b sequence after 321 go)");
+	printf(RED "\n Show sequence?" RESET);
+	getchar();
+	printf("\n");
+	for(int i = 0; i < velikost_abpol-1; i++){
+		printf("%c ", abpol[i]);
+	}
+	printf("\n Hiding sequence in 3");
+	Sleep(500);
+	printf("\n Hiding sequence in 2");
+	Sleep(500);
+	printf("\n Hiding sequence in 1");
+	Sleep(500);
+	del_screen();
+
 	//uzivatel musi zopakovat
+	printf(RED "\n Start inputing sequence?" RESET);
+	clean_buffer();
+	gettimeofday(&start, NULL);
+	while(_kbhit()){ //_kbhit vraci tru nebo false jestli je neco v bufferu? myslim idk
+		_getch(); //mrdne vec z bufferu dopici
+	}
+	while(1){
+	input_string(uzpol, velikost_abpol, "\ntype: ");
+		computar = strcmp(uzpol, abpol);
+		printf("%s ", abpol);
+		printf("%s ", uzpol);
+		if(computar == 0){
+			break;
+		}
+		else{
+			printf("\n Try again");
+		}
+	}
+	gettimeofday(&stop, NULL);
 	//podle ryvhlosti vetsi sance na dodge?
+	// Calculate total elapsed time in microseconds
+    long long start_usec = (long long)start.tv_sec * 1000000 + start.tv_usec;
+    long long stop_usec = (long long)stop.tv_sec * 1000000 + stop.tv_usec;
+    long long elapsed_usec = stop_usec - start_usec;
+
+	// Convert to seconds and remaining milliseconds
+    long seconds = elapsed_usec / 1000000;
+    long milliseconds = (elapsed_usec % 1000000) / 1000;
+
+	printf("Ended at %ld seconds and %ld milliseconds\n", seconds, milliseconds);
+	if(elapsed_usec < 3000000){
+		printf(BOLD GREEN "\n YOU DODGED!");
+		return 1;
+	}
+	else{
+		printf(RED "\n YOU GOT HIT" RESET);
+		return 0;
+	}	
+	
 }
 int dmg_TANK(){ //vracet dmg
 	//pocitat milisekundy od 321 ted?
@@ -532,6 +593,7 @@ int tank_fight(int i_armor_count, int d_armor_count){ //idk jestli se hodi mezi 
 	
 	int decide_chance = 0;
 	int tank_attack_dmg = 2; 
+	int dodge = 0;
 
 	clear_screen();
 
@@ -543,7 +605,7 @@ int tank_fight(int i_armor_count, int d_armor_count){ //idk jestli se hodi mezi 
 	}
 	printf(YELLOW "\n Behind one of the hills appears.... " RESET);
 	Sleep(2000);
-	printf(RED "A 128mm long cylinder??" RESET);
+	printf(RED "A 128mm long cannon???" RESET);
 	Sleep(1000);
 	printf(BOLD RED "\n\n === A MAUS tank appeared to have noticed you! ===\n" RESET);
 	
@@ -571,7 +633,7 @@ int tank_fight(int i_armor_count, int d_armor_count){ //idk jestli se hodi mezi 
 		//2 - attack
 		if(MAUS_lives < max_MAUS_lives){
 			decide_chance = rand() % 100;
-			if(decide_chance > 65){
+			if(decide_chance > 75){
 				MAUS_decision_roud = 1;
 			}
 			else{
@@ -586,6 +648,11 @@ int tank_fight(int i_armor_count, int d_armor_count){ //idk jestli se hodi mezi 
 		switch(MAUS_decision_roud){
 			case 1://heal
 				printf(YELLOW "\n The tank tries to reinforce its hull" RESET);
+				decide_chance = rand() % 100;
+				if(decide_chance > 60){
+					MAUS_lives++;
+					printf("\n TANK healed 1 hp");
+				}
 
 				switch(PLAYER_decision_roud){
 					case 1://attacked
@@ -644,6 +711,9 @@ int tank_fight(int i_armor_count, int d_armor_count){ //idk jestli se hodi mezi 
 								PLAYER_lives = PLAYER_lives - tank_attack_dmg / 2;
 							}
 						}
+						else{
+								printf("\n The tank missed");
+						}
 
 						printf("\n Your turn to attack! give him back what he deserves!");
 						MAUS_lives = MAUS_lives - dmg_TANK(); 
@@ -654,7 +724,32 @@ int tank_fight(int i_armor_count, int d_armor_count){ //idk jestli se hodi mezi 
 						clear_screen();
 					break;
 					case 2:
-						printf("\nWIP");
+						printf(YELLOW"\n The tank attempts to fire at you");
+						dodge = dodge_TANK();
+						if(dodge == 1){
+							printf("\n The TANKs attack just barely missed you!");
+						}
+						else if(dodge == 0){
+							decide_chance = rand() % 100;
+							decide_chance = decide_chance - (i_armor_count*10); //idk jesti fachci - melo by zmensut sanci na hit
+							if(decide_chance >30){
+								printf(RED "\n The tank fires and the tank round hits you!"RESET);
+								if(d_armor_count <1){ //no dia
+									printf(RED "\n You lose %dhp"RESET, tank_attack_dmg);
+									PLAYER_lives = PLAYER_lives - tank_attack_dmg;
+								}
+								else{ //dia
+									printf(RED "\n You lose %dhp"RESET, tank_attack_dmg / 2);
+									PLAYER_lives = PLAYER_lives - tank_attack_dmg / 2;
+								}
+							}	
+							else{
+								printf("\n The tank missed");
+							}
+						}
+						printf("\n Your turn to attack! give him back what he deserves!");
+						MAUS_lives = MAUS_lives - dmg_TANK(); 
+						clear_screen();
 					break;
 					case 3:
 						printf(YELLOW"\n The tank attempts to fire at you");
@@ -670,6 +765,9 @@ int tank_fight(int i_armor_count, int d_armor_count){ //idk jestli se hodi mezi 
 								printf(RED "\n You lose %dhp"RESET, tank_attack_dmg / 2);
 								PLAYER_lives = PLAYER_lives - tank_attack_dmg / 2;
 							}
+						}
+						else{
+							printf("\n The tank missed");
 						}
 
 						printf(YELLOW "\n You use this chance to pray to BENJAMIN NETENYAHU" RESET);
