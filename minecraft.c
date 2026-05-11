@@ -475,11 +475,11 @@ int dodge_TANK(){
 		printf("%c ", abpol[i]);
 	}
 	printf("\n Hiding sequence in 3");
-	Sleep(500);
+	Sleep(750);
 	printf("\n Hiding sequence in 2");
-	Sleep(500);
+	Sleep(750);
 	printf("\n Hiding sequence in 1");
-	Sleep(500);
+	Sleep(750);
 	del_screen();
 
 	//uzivatel musi zopakovat
