@@ -141,7 +141,7 @@ void menu_craft(int leather, int wool, int wood, int iron, int diamonds) {
 void menu_boss(){
 	clear_screen();
 	printf (BOLD CYAN "=== BOSS FIGHT MENU === \n" RESET);
-	printf (YELLOW " 1. LEVEL - 1\n 2. LEVEL - 2\n 3. LEVEL - 3\n 4. LEVEL - 4\n 5. RANDOM LEVEL\n 0. BACK" RESET);
+	printf (YELLOW " 1. LEVEL - 1 Samurai \n 2. LEVEL - 2 Mage \n 3. LEVEL - 3 Tank \n 4. LEVEL - 4 WIP\n 5. RANDOM LEVEL\n 0. BACK" RESET);
 }
 void colours (char crystal) {
     switch (crystal) {
