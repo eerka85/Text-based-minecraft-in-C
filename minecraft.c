@@ -1,9 +1,11 @@
 //POMOC POMOC POMOC POMOC - verze 11.0 (mage s  dlescreen, samurai, random boss) verze 10.0 (tank, mlib, art) verze 9.0 (dice, phub) verze 8.0(old samuraj) verze 7.0 (healy, dice art(1)) verze 6.0 (bug fixes, vic v inv, crafting recepies, easy loadovani saveu) verze 5.0 (vic v inv, crafting recepies, easy loadovani saveu) verze 4.1(==SAVEOVANI==, UTF - 8 text vsude - ta setconsoleoutput fce v main, 2x kosticek,SHEEP ART, SKELL ART and ZOMBIE ART) 3.0 (clear screen + menu boss) + 2.0(plains + encounter + counterattack) 1.0(+ crafting armor/weapons + barvy + input int/string + inventory)
 //NAPADY - 
 //       - dum? - zahrada, crafting table, furnace, animal farmu [village? - stardew valley npccka? item trade?]
+//		 - gold?
 //       - trophy room pro boss fighty? (soucasti domu?)
+//		 - lore?
 // stehlik mrda dvanactky
-//		po cleanbuff v attack se musi mackat enter
+//		
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -611,6 +613,7 @@ int tank_fight(int i_armor_count, int d_armor_count){ //idk jestli se hodi mezi 
 	
 	do{
 		if(MAUS_lives <=0){ //win
+			printf(BOLD GREEN "\n You managed to defeat the TANK boss, congratulations..." RESET);
 			return 0;
 		}
 		if(PLAYER_lives > 4){ //too much HP
@@ -782,7 +785,7 @@ int tank_fight(int i_armor_count, int d_armor_count){ //idk jestli se hodi mezi 
 
 						decide_chance = rand() % 100;
 						if(decide_chance > 65){
-							printf(GREEN "\n The jewish spirit within you blooms\n Healed 1 HP!" RESET);
+							printf(GREEN "\n The jewish spirit within you blooms\n Healed 1 HP!" RESET); //hava nagila or sum shit
 							PLAYER_lives++;
 						}
 						else{
@@ -797,7 +800,7 @@ int tank_fight(int i_armor_count, int d_armor_count){ //idk jestli se hodi mezi 
 
 
 	} while(PLAYER_lives > 0); //main do while cycyle end
-	printf("You died..."); //dodelat?
+	printf("You died..."); //dodelat? - ztratit par goldu insted of exit?
 	exit(0);
 }
 
@@ -1114,7 +1117,7 @@ void assassin_fight(int *boss_hp, int *player_hp, int i_chestplate, int i_helmet
 }
 
 //DATA SAVE
-int getdatapls(int * player_hp_fighting, int * leather, int * wool, int * wood, int * iron, int * diamonds, int * i_helmet, int * d_helmet, int * i_chestplate, int * d_chestplate, int * i_leggings, int * d_leggings, int * i_boots, int * d_boots, int * d_sword, int * i_sword, int * i_pickaxe, int * d_pickaxe, int * i_axe, int * d_axe){
+int getdatapls(int * no_of_TANKs_defeated, int * player_hp_fighting, int * leather, int * wool, int * wood, int * iron, int * diamonds, int * i_helmet, int * d_helmet, int * i_chestplate, int * d_chestplate, int * i_leggings, int * d_leggings, int * i_boots, int * d_boots, int * d_sword, int * i_sword, int * i_pickaxe, int * d_pickaxe, int * i_axe, int * d_axe){
 	FILE * fptr_fce;
 	char voleni_file_jmeno[30];
 	int whil = 1;
@@ -1142,6 +1145,8 @@ int getdatapls(int * player_hp_fighting, int * leather, int * wool, int * wood, 
 	}
 		char s_data_save[10];
 
+		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
+		*no_of_TANKs_defeated = atoi(s_data_save);
 		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
 		*player_hp_fighting = atoi(s_data_save);
 		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
@@ -1204,6 +1209,8 @@ int main()
 	int volba_fight = 0;
 	int leather = 0;
 	int crafting_mat_volba = 0;
+
+
 	int backpack = 0;
 	int i_helmet = 0;
 	int d_helmet = 0;
@@ -1219,6 +1226,8 @@ int main()
 	int d_pickaxe = 0;
 	int i_axe = 0;
 	int d_axe = 0;
+
+
 	int valid = 0;
 	int volim = 0;
 	int player_hp_fighting = 10;
@@ -1227,6 +1236,8 @@ int main()
 	const int cislo = 67;
 	int boss_fight_volba = 0;
 	int boss_loop = 0;
+	int no_of_TANKs_defeated = 0;
+
 	srand(time(NULL));
 	SetConsoleOutputCP(65001); //nastaveni UTF-8 pro windows, aby se zobrazovaly tyhle hezký kostičky :D (holy shit tohle napsalo vs za me)
 	FILE *fptr; //pointer do save (POINTERRRRRR)
@@ -1237,8 +1248,8 @@ int main()
 	int player_hp = 100;
 	int running = 1; 
 
-
-	getdatapls(&player_hp_fighting, &leather, &wool, &wood, &iron, &diamonds, &i_helmet, &d_helmet, &i_chestplate, &d_chestplate, &i_leggings, &d_leggings, &i_boots, &d_boots, &d_sword, &i_sword, &i_pickaxe, &d_pickaxe, &i_axe, &d_axe);
+	//zavolani fce, ulozeni v main, v deklaraci fce, fgets, printf v inv - 5 veci kde pridat do save
+	getdatapls(&no_of_TANKs_defeated, &player_hp_fighting, &leather, &wool, &wood, &iron, &diamonds, &i_helmet, &d_helmet, &i_chestplate, &d_chestplate, &i_leggings, &d_leggings, &i_boots, &d_boots, &d_sword, &i_sword, &i_pickaxe, &d_pickaxe, &i_axe, &d_axe);
 
 	while (1) {
 		i_armor_count = i_helmet + i_chestplate + i_leggings + i_boots;
@@ -1258,7 +1269,7 @@ int main()
 				strcpy(voleni_file_jmeno_tricetpet, voleni_file_jmeno);
 				strcat(voleni_file_jmeno_tricetpet, ".txt");
 				fptr = fopen(voleni_file_jmeno_tricetpet, "w");
-				fprintf(fptr, " %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n ",player_hp_fighting, leather, wool, wood, iron, diamonds, i_helmet, d_helmet, i_chestplate, d_chestplate, i_leggings, d_leggings, i_boots, d_boots, d_sword, i_sword, i_pickaxe, d_pickaxe, i_axe, d_axe);
+				fprintf(fptr, " %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n ",no_of_TANKs_defeated, player_hp_fighting, leather, wool, wood, iron, diamonds, i_helmet, d_helmet, i_chestplate, d_chestplate, i_leggings, d_leggings, i_boots, d_boots, d_sword, i_sword, i_pickaxe, d_pickaxe, i_axe, d_axe);
 				fclose(fptr);
 				printf(RED "SAVING AND ENDING THE GAME..." RESET);
 				Sleep(500);
@@ -1570,10 +1581,14 @@ int main()
 							
 						} 
 					
-					break;
+				break;
 
 				case 3: // tank
-					tank_fight(i_armor_count, d_armor_count);
+					int pakvyl = tank_fight(i_armor_count, d_armor_count); //raise defeat counter
+					if(pakvyl == 0){
+						no_of_TANKs_defeated++;
+					}
+				break;
 				case 4: // assassin
 					boss_hp = 100;
 					player_hp = 100;
@@ -1588,7 +1603,7 @@ int main()
 							break;
 						}
 					}
-					break;
+				break;
 
 				case 5:  // random
 					int random_boss = rand() % 4;
@@ -1662,6 +1677,8 @@ int main()
 			printf(GRAY " iron leggings:      %d\n" RESET, i_leggings);
 			printf(CYAN " diamond boots:      %d\n" RESET, d_boots);
 			printf(GRAY " iron boots:         %d\n" RESET, i_boots);
+
+			printf(BOLD YELLOW " TANKS DEFEATED:         %d\n" RESET, no_of_TANKs_defeated);
 		break;
 		case 5: //eat
 			heal_player(&player_hp_fighting);
