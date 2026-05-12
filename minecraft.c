@@ -44,7 +44,7 @@ int input_int(int min, int max) {
 		int is_input_valid = scanf("%d", &tmp);
 		clean_buffer();
 		if(is_input_valid == 0 || tmp <min || tmp >max) {
-			printf(BOLD YELLOW "##failed to load number##\n" RESET);
+			printf(BOLD YELLOW "\n ##failed to load number##" RESET);
 			continue;
 		}
 		else {
@@ -68,7 +68,7 @@ void del_screen(){
 void menu() {
 	clear_screen();
 	printf(BOLD CYAN "\n=== ADVENTURE ===\n" RESET);
-	printf(YELLOW " 1. CRAFT\n 2. MINE\n 3. FIGHT\n 4. INVENTORY\n 5. HEAL\n 0. LEAVE" RESET);
+	printf(YELLOW " 1. CRAFT\n 2. MINE\n 3. FIGHT\n 4. INVENTORY\n 5. HEAL\n 6.BASE\n 0. LEAVE" RESET);
 }
 
 void menu_mine() {
@@ -139,6 +139,16 @@ void menu_craft(int leather, int wool, int wood, int iron, int diamonds) {
 	}
 	printf(YELLOW " 0. BACK\n" RESET);
 
+}
+void menu_base(){
+	//villager trading
+	//unequip armor - armor stand
+	//pet dog - sezenes v plains s kosti - bude davat obcas dmg
+	//chestky? aby kdyz chcipnes tak ti to sebere veci
+	printf (BOLD CYAN "=== BASE MENU === \n" RESET);
+	printf (YELLOW "\n 1. Vilagers\n 2. Storage\n 3. Pets\n 0. BACK" RESET);
+	
+	
 }
 void menu_boss(){
 	clear_screen();
@@ -1115,6 +1125,11 @@ int plains(int d_sword, int i_sword, int * leather, int * wool, int * player_hp_
 void assassin_fight(int *boss_hp, int *player_hp, int i_chestplate, int i_helmet, int i_leggings, int i_boots, int d_chestplate, int d_helmet, int d_leggings, int d_boots, int d_sword, int i_sword) {
     printf(CYAN "WIP - You are fighting against the assassin...\n" RESET);
 }
+void base_fce(){
+	while (1){
+		menu_base();
+	}//konec base
+}
 
 //DATA SAVE
 int getdatapls(int * no_of_TANKs_defeated, int * player_hp_fighting, int * leather, int * wool, int * wood, int * iron, int * diamonds, int * i_helmet, int * d_helmet, int * i_chestplate, int * d_chestplate, int * i_leggings, int * d_leggings, int * i_boots, int * d_boots, int * d_sword, int * i_sword, int * i_pickaxe, int * d_pickaxe, int * i_axe, int * d_axe){
@@ -1255,7 +1270,7 @@ int main()
 		i_armor_count = i_helmet + i_chestplate + i_leggings + i_boots;
 		d_armor_count = d_helmet + d_chestplate + d_leggings + d_boots;
 		menu();
-		volim = input_int(0, 5);
+		volim = input_int(0, 6);
 
 		switch (volim) {
 		case 0:
@@ -1682,6 +1697,9 @@ int main()
 		break;
 		case 5: //eat
 			heal_player(&player_hp_fighting);
+		break;
+		case 6:
+
 		break;
 		}
 	}
