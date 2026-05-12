@@ -60,6 +60,9 @@ void clear_screen() {
 void del_screen(){
 	system("cls");
 }
+void delete_screen(){
+    printf("\033[H\033[J");
+}
 
 
 
@@ -68,7 +71,7 @@ void del_screen(){
 void menu() {
 	clear_screen();
 	printf(BOLD CYAN "\n=== ADVENTURE ===\n" RESET);
-	printf(YELLOW " 1. CRAFT\n 2. MINE\n 3. FIGHT\n 4. INVENTORY\n 5. HEAL\n 6.BASE\n 0. LEAVE" RESET);
+	printf(YELLOW " 1. CRAFT\n 2. MINE\n 3. FIGHT\n 4. INVENTORY\n 5. HEAL\n 6. BASE\n 0. LEAVE" RESET);
 }
 
 void menu_mine() {
@@ -153,7 +156,7 @@ void menu_base(){
 void menu_boss(){
 	clear_screen();
 	printf (BOLD CYAN "=== BOSS FIGHT MENU === \n" RESET);
-	printf (YELLOW " 1. LEVEL - 1 Samurai \n 2. LEVEL - 2 Mage \n 3. LEVEL - 3 Tank \n 4. LEVEL - 4 WIP\n 5. RANDOM LEVEL\n 0. BACK" RESET);
+	printf (YELLOW " 1. LEVEL - 1 Samurai \n 2. LEVEL - 2 Mage \n 3. LEVEL - 3 Tank \n 4. LEVEL - 4 Assasin\n 5. RANDOM LEVEL\n 0. BACK" RESET);
 }
 void colours (char crystal) {
     switch (crystal) {
@@ -1123,7 +1126,69 @@ int plains(int d_sword, int i_sword, int * leather, int * wool, int * player_hp_
     return 0;
 }
 void assassin_fight(int *boss_hp, int *player_hp, int i_chestplate, int i_helmet, int i_leggings, int i_boots, int d_chestplate, int d_helmet, int d_leggings, int d_boots, int d_sword, int i_sword) {
-    printf(CYAN "WIP - You are fighting against the assassin...\n" RESET);
+    printf(CYAN "You are fighting against the assassin...\n" RESET);
+    int p_attack = 0;
+    int e_pos; 
+    char direction [] = {'L', 'S', 'R'};
+    int lucky_row;
+    int damage = 0;
+    char print_direction[10];
+
+
+	
+    while (*boss_hp > 0 && *player_hp > 0) {
+
+	printf("\n The assasin is getting ready to attack");
+	getchar();
+		e_pos = rand() % 3; // 0 - left, 1 - straight, 2 - right
+		lucky_row = rand() % 10;
+	
+    for (int i = 0; i < 10; i++){ // Cues, in a line
+        if (e_pos == 0){
+            strcpy(print_direction, "LLEEFFTT");
+        
+        }
+        else if (e_pos == 1){
+            strcpy(print_direction, "STRAIGHT");
+        }
+        else {
+            strcpy(print_direction, "RRIIGGHT");
+        }
+        if (i == lucky_row){
+            printf("??#!%%^" BOLD YELLOW "%s" RESET "&$#*!\n", print_direction);
+        }
+        else {
+            printf("!!@$#*&^%%$#@!!?@%%\n");
+        }
+    }
+    Sleep (175);
+    delete_screen();
+    printf (RED "Boss HP: %d | Your HP: %d\n" RESET, *boss_hp, *player_hp);
+
+    printf (CYAN "The assassin has lunged towards you, where will strike?\n" RESET);
+    printf (YELLOW "1. LEFT\n2. STRAIGHT\n3. RIGHT\n" RESET);
+    p_attack = input_int(1, 3); // choose where to attack
+
+    if (p_attack == e_pos + 1){
+        printf(GREEN "You successfully hit the assassin!\n" RESET);
+        if (d_sword > 0) {
+            damage = 5;
+        }
+        else if (i_sword > 0) {
+            damage = 3;
+        }
+        else {
+            damage = 1;
+        }
+        *boss_hp -= damage;
+    }
+    else {
+        printf(RED "You missed! The assassin strikes you!\n" RESET);
+        damage = 25;
+        *player_hp -= damage;
+    }
+	printf (RED "Boss HP: %d | Your HP: %d\n" RESET, *boss_hp, *player_hp);
+	}
 }
 void base_fce(){
 	while (1){
@@ -1605,20 +1670,20 @@ int main()
 					}
 				break;
 				case 4: // assassin
-					boss_hp = 100;
-					player_hp = 100;
-					while (boss_hp > 0 && player_hp > 0) {
-						assassin_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,
-										d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
-						if (player_hp <= 0) {
-							printf(RED "\nYou were defeated by the assassin!\n" RESET);
-							break;
-						} else if (boss_hp <= 0) {
-							printf(GREEN "\nYou defeated the assassin!\n" RESET);
-							break;
-						}
-					}
-				break;
+                        boss_hp = 100;
+                        player_hp = 100;
+                        while (boss_hp > 0 && player_hp > 0) {
+                            assassin_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,
+                                           d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
+                            if (player_hp <= 0) {
+                                printf(RED "\nYou were defeated by the assassin!\n" RESET);
+                                break;
+                            } else if (boss_hp <= 0) {
+                                printf(GREEN "\nYou defeated the assassin!\n" RESET);
+                                break;
+                            }
+                        }
+                break;
 
 				case 5:  // random
 					int random_boss = rand() % 4;
