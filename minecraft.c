@@ -17,6 +17,13 @@
 #include "mlib.h"
 #include "art.h"
 //UNPUTY
+typedef struct {
+	int S_leather;
+	int S_wool;
+	int S_wood;
+	int S_iron;
+	int S_diamonds;
+} storage;
 
 void clean_buffer() {
 	int c;
@@ -1190,9 +1197,141 @@ void assassin_fight(int *boss_hp, int *player_hp, int i_chestplate, int i_helmet
 	printf (RED "Boss HP: %d | Your HP: %d\n" RESET, *boss_hp, *player_hp);
 	}
 }
-void base_fce(){
-	while (1){
+
+void storage_system(storage * Sprt, int * leather, int * wool, int * wood, int * iron, int * diamonds){
+	printf(YELLOW "\n Transfer materials?\n 1. - yes\n 0. - no" RESET);
+	int volba = input_int(0, 1);
+	int volba2 = 0;
+	int kolik = 0;
+	int decision = 0;
+
+	switch(volba){
+		case 0:
+			return;
+		break;
+		case 1:
+			printf(YELLOW "\n Which?\n 0. - none\n 1. - leather\n 2. - wool\n 3. - wood\n 4. - iron\n 5. - diamons" RESET);
+			volba2 = input_int(0,5);
+			printf(CYAN "\n How much?" RESET);
+			kolik = input_int(0, 32000);
+			printf(CYAN "\n add or take?\n 1 - add\n 0 - take" RESET);
+			decision = input_int(0, 1);
+			switch (volba2){
+				case 0:
+					return;
+				break;
+
+				case 1:
+					if(decision == 1){
+						*leather = *leather - kolik;
+						Sprt->S_leather = Sprt->S_leather + kolik;
+					}
+					else{
+						if(Sprt->S_leather >= kolik){
+							*leather = *leather + kolik;
+							Sprt->S_leather = Sprt->S_leather - kolik;
+						}
+						else{
+							printf("\n Not enough leather in storage :(");
+						}
+					}
+				break;
+
+				case 2:
+					if(decision == 1){
+						*wool = *wool - kolik;
+						Sprt->S_wool = Sprt->S_wool + kolik;
+					}
+					else{
+						if(Sprt->S_wool >= kolik){
+							*wool = *wool + kolik;
+							Sprt->S_wool = Sprt->S_wool - kolik;
+						}
+						else{
+							printf("\n Not enough wool in storage :(");
+						}
+					}
+				break;
+
+				case 3:
+					if(decision == 1){
+						*wood = *wood - kolik;
+						Sprt->S_wood = Sprt->S_wood + kolik;
+					}
+					else{
+						if(Sprt->S_wood >= kolik){
+							*wood = *wood + kolik;
+							Sprt->S_wood = Sprt->S_wood - kolik;
+						}
+						else{
+							printf("\n Not enough wood in storage :(");
+						}
+					}
+				break;
+
+				case 4:
+					if(decision == 1){
+						*iron = *iron - kolik;
+						Sprt->S_iron = Sprt->S_iron + kolik;
+					}
+					else{
+						if(Sprt->S_iron >= kolik){
+							*iron = *iron + kolik;
+							Sprt->S_iron = Sprt->S_iron - kolik;
+						}
+						else{
+							printf("\n Not enough iron in storage :(");
+						}
+					}
+				break;
+
+				case 5:
+					if(decision == 1){
+						*diamonds = *diamonds - kolik;
+						Sprt->S_diamonds = Sprt->S_diamonds + kolik;
+					}
+					else{
+						if(Sprt->S_diamonds >= kolik){
+							*diamonds = *diamonds + kolik;
+							Sprt->S_diamonds = Sprt->S_diamonds - kolik;
+						}
+						else{
+							printf("\n Not enough diamonds in storage :(");
+						}
+					}
+				break;
+				
+			}
+
+		break;
+	}
+	
+
+}
+void base_fce(storage * Sprt,  int * leather, int * wool, int * wood, int * iron, int * diamonds){
+	int volba_base_whil = 0;
+	int ovladanie_base_whil = 1;
+	while (ovladanie_base_whil){
+		clear_screen();
 		menu_base();
+		volba_base_whil = input_int(0, 3);
+		switch(volba_base_whil){
+			case 0:
+				ovladanie_base_whil = 0;
+			break;
+
+			case 1: //villagers
+
+			break;
+
+			case 2: //storage
+				storage_system(Sprt, leather, wool, wood, iron, diamonds);
+			break;
+
+			case 3://pets
+
+			break;
+		}
 	}//konec base
 }
 
@@ -1290,6 +1429,12 @@ int main()
 	int leather = 0;
 	int crafting_mat_volba = 0;
 
+	int S_leather = 0;
+	int S_wool = 0;
+	int S_wood = 0;
+	int S_iron = 0;
+	int S_diamonds = 0;
+
 
 	int backpack = 0;
 	int i_helmet = 0;
@@ -1330,6 +1475,7 @@ int main()
 
 	//zavolani fce, ulozeni v main, v deklaraci fce, fgets, printf v inv - 5 veci kde pridat do save
 	getdatapls(&no_of_TANKs_defeated, &player_hp_fighting, &leather, &wool, &wood, &iron, &diamonds, &i_helmet, &d_helmet, &i_chestplate, &d_chestplate, &i_leggings, &d_leggings, &i_boots, &d_boots, &d_sword, &i_sword, &i_pickaxe, &d_pickaxe, &i_axe, &d_axe);
+	storage base_storage = {S_leather, S_wool, S_wood, S_iron, S_diamonds};
 
 	while (1) {
 		i_armor_count = i_helmet + i_chestplate + i_leggings + i_boots;
@@ -1759,12 +1905,19 @@ int main()
 			printf(GRAY " iron boots:         %d\n" RESET, i_boots);
 
 			printf(BOLD YELLOW " TANKS DEFEATED:         %d\n" RESET, no_of_TANKs_defeated);
+
+			printf(PURPLE " Leather in storage: %d\n" RESET, base_storage.S_leather);
+			printf(PURPLE " Wool in storage: %d\n" RESET, base_storage.S_wool);
+			printf(PURPLE " Wood in storage: %d\n" RESET, base_storage.S_wood);
+			printf(PURPLE " Iron in storage: %d\n" RESET, base_storage.S_iron);
+			printf(PURPLE " Diamonds in storage: %d\n" RESET, base_storage.S_diamonds);
+
 		break;
 		case 5: //eat
 			heal_player(&player_hp_fighting);
 		break;
 		case 6:
-
+			base_fce(&base_storage, &leather, &wool, &wood, &iron, &diamonds);
 		break;
 		}
 	}
