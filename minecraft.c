@@ -365,7 +365,7 @@ int counterattack(int mon_attackdmg, int i_armor_count, int d_armor_count){
 
 }
 //ENCOUTER
-int encounter(int chosen_mon, int d_sword, int i_sword, int * leather, int * wool, int *player_hp_fighting, int i_armor_count, int d_armor_count){
+int encounter(int chosen_mon, int d_sword, int i_sword,int * bones, int * leather, int * wool, int *player_hp_fighting, int i_armor_count, int d_armor_count){
     //MON DATA
     char mon_name[20];
     int dontrun;
@@ -460,8 +460,8 @@ int encounter(int chosen_mon, int d_sword, int i_sword, int * leather, int * woo
 				printf(GREEN "ENEMY ZOMBIE DIED\nYOU GAINED %d leather/s\n" RESET, rewtmp);
 				break;
 				case 2: //2 - skeleton
-				*leather = *leather + rewtmp;
-				printf(GREEN "ENEMY SKELETON DIED\nYOU GAINED %d leather/s\n" RESET, rewtmp);
+				*bones = *bones + rewtmp;
+				printf(GREEN "ENEMY SKELETON DIED\nYOU GAINED %d bone/s\n" RESET, rewtmp);
 				break;
 				case 21: //21 - sheep
 				*wool = *wool + rewtmp;
@@ -1109,7 +1109,7 @@ void mage_fight(int *boss_hp, int *player_hp, int i_chestplate, int i_helmet, in
 }
 //BIOMY FIGHT
 
-int plains(int d_sword, int i_sword, int * leather, int * wool, int * player_hp_fighting, int i_armor_count, int d_armor_count){
+int plains(int d_sword, int i_sword, int * bones, int * leather, int * wool, int * player_hp_fighting, int i_armor_count, int d_armor_count){
     int dncycle = 1;
     int whi = 1;
     while(whi==1){
@@ -1118,16 +1118,16 @@ int plains(int d_sword, int i_sword, int * leather, int * wool, int * player_hp_
             printf(BOLD "\nIts night...\n" RESET);
 			int tmp = rand() % 2;
 			if(tmp == 0){
-				whi =encounter(1, d_sword, i_sword, leather, wool, player_hp_fighting, i_armor_count, d_armor_count);
+				whi =encounter(1, d_sword, i_sword, bones, leather, wool, player_hp_fighting, i_armor_count, d_armor_count);
 			}
             else if(tmp == 1){
-				whi = encounter(2, d_sword, i_sword, leather, wool, player_hp_fighting, i_armor_count, d_armor_count);
+				whi = encounter(2, d_sword, i_sword, bones, leather, wool, player_hp_fighting, i_armor_count, d_armor_count);
 			}
 
         }
         else if(dncycle == 1){ //DAY
             printf(BOLD "\nIts a new day!\n" RESET);
-            whi = encounter(21, d_sword, i_sword, leather, wool, player_hp_fighting, i_armor_count, d_armor_count);
+            whi = encounter(21, d_sword, i_sword, bones, leather, wool, player_hp_fighting, i_armor_count, d_armor_count);
         }
     }
     return 0;
@@ -1325,6 +1325,12 @@ void base_fce(storage * Sprt,  int * leather, int * wool, int * wood, int * iron
 			break;
 
 			case 2: //storage
+				printf(PURPLE " Leather in storage: %d\n" RESET, Sprt->S_leather);
+				printf(PURPLE " Wool in storage: %d\n" RESET, Sprt->S_wool);
+				printf(PURPLE " Wood in storage: %d\n" RESET, Sprt->S_wood);
+				printf(PURPLE " Iron in storage: %d\n" RESET, Sprt->S_iron);
+				printf(PURPLE " Diamonds in storage: %d\n" RESET, Sprt->S_diamonds);
+
 				storage_system(Sprt, leather, wool, wood, iron, diamonds);
 			break;
 
@@ -1336,7 +1342,7 @@ void base_fce(storage * Sprt,  int * leather, int * wool, int * wood, int * iron
 }
 
 //DATA SAVE
-int getdatapls(int * S_leather, int * S_wool, int * S_wood, int * S_iron, int * S_diamonds, int * no_of_TANKs_defeated, int * player_hp_fighting, int * leather, int * wool, int * wood, int * iron, int * diamonds, int * i_helmet, int * d_helmet, int * i_chestplate, int * d_chestplate, int * i_leggings, int * d_leggings, int * i_boots, int * d_boots, int * d_sword, int * i_sword, int * i_pickaxe, int * d_pickaxe, int * i_axe, int * d_axe){
+int getdatapls(int * S_leather, int * S_wool, int * S_wood, int * S_iron, int * S_diamonds, int * no_of_TANKs_defeated, int * player_hp_fighting, int * bones, int * leather, int * wool, int * wood, int * iron, int * diamonds, int * i_helmet, int * d_helmet, int * i_chestplate, int * d_chestplate, int * i_leggings, int * d_leggings, int * i_boots, int * d_boots, int * d_sword, int * i_sword, int * i_pickaxe, int * d_pickaxe, int * i_axe, int * d_axe){
 	FILE * fptr_fce;
 	char voleni_file_jmeno[30];
 	int whil = 1;
@@ -1379,6 +1385,8 @@ int getdatapls(int * S_leather, int * S_wool, int * S_wood, int * S_iron, int * 
 		*no_of_TANKs_defeated = atoi(s_data_save);
 		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
 		*player_hp_fighting = atoi(s_data_save);
+		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
+		*bones = atoi(s_data_save);
 		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
 		*leather = atoi(s_data_save);
 		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
@@ -1440,6 +1448,7 @@ int main()
 	int leather = 0;
 	int crafting_mat_volba = 0;
 
+	int bones = 0;
 	int S_leather = 0;
 	int S_wool = 0;
 	int S_wood = 0;
@@ -1485,7 +1494,7 @@ int main()
 	int running = 1; 
 
 	//zavolani fce, ulozeni v main, v deklaraci fce, fgets, printf v inv - 5 veci kde pridat do save
-	getdatapls(&S_leather, &S_wool, &S_wood, &S_iron, &S_diamonds, &no_of_TANKs_defeated, &player_hp_fighting, &leather, &wool, &wood, &iron, &diamonds, &i_helmet, &d_helmet, &i_chestplate, &d_chestplate, &i_leggings, &d_leggings, &i_boots, &d_boots, &d_sword, &i_sword, &i_pickaxe, &d_pickaxe, &i_axe, &d_axe);
+	getdatapls(&S_leather, &S_wool, &S_wood, &S_iron, &S_diamonds, &no_of_TANKs_defeated, &player_hp_fighting, &bones, &leather, &wool, &wood, &iron, &diamonds, &i_helmet, &d_helmet, &i_chestplate, &d_chestplate, &i_leggings, &d_leggings, &i_boots, &d_boots, &d_sword, &i_sword, &i_pickaxe, &d_pickaxe, &i_axe, &d_axe);
 	storage base_storage = {S_leather, S_wool, S_wood, S_iron, S_diamonds};
 	
 
@@ -1507,7 +1516,7 @@ int main()
 				strcpy(voleni_file_jmeno_tricetpet, voleni_file_jmeno);
 				strcat(voleni_file_jmeno_tricetpet, ".txt");
 				fptr = fopen(voleni_file_jmeno_tricetpet, "w");
-				fprintf(fptr, "%d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n ", base_storage.S_leather, base_storage.S_wool, base_storage.S_wood, base_storage.S_iron, base_storage.S_diamonds, no_of_TANKs_defeated, player_hp_fighting, leather, wool, wood, iron, diamonds, i_helmet, d_helmet, i_chestplate, d_chestplate, i_leggings, d_leggings, i_boots, d_boots, d_sword, i_sword, i_pickaxe, d_pickaxe, i_axe, d_axe);
+				fprintf(fptr, "%d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n ", base_storage.S_leather, base_storage.S_wool, base_storage.S_wood, base_storage.S_iron, base_storage.S_diamonds, no_of_TANKs_defeated, player_hp_fighting, bones, leather, wool, wood, iron, diamonds, i_helmet, d_helmet, i_chestplate, d_chestplate, i_leggings, d_leggings, i_boots, d_boots, d_sword, i_sword, i_pickaxe, d_pickaxe, i_axe, d_axe);
 				fclose(fptr);
 				printf(RED "SAVING AND ENDING THE GAME..." RESET);
 				Sleep(500);
@@ -1886,7 +1895,7 @@ int main()
 		break; //break case 1 bossove
 
         case 2: // explore
-            valid = plains(d_sword, i_sword, &leather, &wool, &player_hp_fighting, i_armor_count, d_armor_count);
+            valid = plains(d_sword, i_sword, &bones, &leather, &wool, &player_hp_fighting, i_armor_count, d_armor_count);
             if(valid != 0) printf("plains fce failed :(");
         break;
         case 3: // dungeon
@@ -1899,6 +1908,7 @@ int main()
 			printf(YELLOW " Logs:             %d\n" RESET, wood);
 			printf(YELLOW " Iron:             %d\n" RESET, iron);
 			printf(YELLOW " Diamonds:         %d\n" RESET, diamonds);
+			printf(YELLOW " Bones:            %d\n" RESET, bones);
 			printf(YELLOW " Leather:          %d\n" RESET, leather);
 			printf(YELLOW " Wool:             %d\n" RESET, wool);
 			printf(CYAN " diamond sword:      %d\n" RESET, d_sword);
@@ -1917,12 +1927,7 @@ int main()
 			printf(GRAY " iron boots:         %d\n" RESET, i_boots);
 
 			printf(BOLD YELLOW " TANKS DEFEATED:         %d\n" RESET, no_of_TANKs_defeated);
-
-			printf(PURPLE " Leather in storage: %d\n" RESET, base_storage.S_leather);
-			printf(PURPLE " Wool in storage: %d\n" RESET, base_storage.S_wool);
-			printf(PURPLE " Wood in storage: %d\n" RESET, base_storage.S_wood);
-			printf(PURPLE " Iron in storage: %d\n" RESET, base_storage.S_iron);
-			printf(PURPLE " Diamonds in storage: %d\n" RESET, base_storage.S_diamonds);
+			//pozdeji ostati rn am too lazy
 
 		break;
 		case 5: //eat
