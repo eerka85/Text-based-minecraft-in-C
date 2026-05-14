@@ -1336,7 +1336,7 @@ void base_fce(storage * Sprt,  int * leather, int * wool, int * wood, int * iron
 }
 
 //DATA SAVE
-int getdatapls(int * no_of_TANKs_defeated, int * player_hp_fighting, int * leather, int * wool, int * wood, int * iron, int * diamonds, int * i_helmet, int * d_helmet, int * i_chestplate, int * d_chestplate, int * i_leggings, int * d_leggings, int * i_boots, int * d_boots, int * d_sword, int * i_sword, int * i_pickaxe, int * d_pickaxe, int * i_axe, int * d_axe){
+int getdatapls(int * S_leather, int * S_wool, int * S_wood, int * S_iron, int * S_diamonds, int * no_of_TANKs_defeated, int * player_hp_fighting, int * leather, int * wool, int * wood, int * iron, int * diamonds, int * i_helmet, int * d_helmet, int * i_chestplate, int * d_chestplate, int * i_leggings, int * d_leggings, int * i_boots, int * d_boots, int * d_sword, int * i_sword, int * i_pickaxe, int * d_pickaxe, int * i_axe, int * d_axe){
 	FILE * fptr_fce;
 	char voleni_file_jmeno[30];
 	int whil = 1;
@@ -1363,6 +1363,17 @@ int getdatapls(int * no_of_TANKs_defeated, int * player_hp_fighting, int * leath
 			}
 	}
 		char s_data_save[10];
+		//storage
+		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
+		*S_leather = atoi(s_data_save);
+		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
+		*S_wool = atoi(s_data_save);
+		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
+		*S_wood = atoi(s_data_save);
+		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
+		*S_iron = atoi(s_data_save);
+		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
+		*S_diamonds = atoi(s_data_save);
 
 		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
 		*no_of_TANKs_defeated = atoi(s_data_save);
@@ -1474,8 +1485,9 @@ int main()
 	int running = 1; 
 
 	//zavolani fce, ulozeni v main, v deklaraci fce, fgets, printf v inv - 5 veci kde pridat do save
-	getdatapls(&no_of_TANKs_defeated, &player_hp_fighting, &leather, &wool, &wood, &iron, &diamonds, &i_helmet, &d_helmet, &i_chestplate, &d_chestplate, &i_leggings, &d_leggings, &i_boots, &d_boots, &d_sword, &i_sword, &i_pickaxe, &d_pickaxe, &i_axe, &d_axe);
+	getdatapls(&S_leather, &S_wool, &S_wood, &S_iron, &S_diamonds, &no_of_TANKs_defeated, &player_hp_fighting, &leather, &wool, &wood, &iron, &diamonds, &i_helmet, &d_helmet, &i_chestplate, &d_chestplate, &i_leggings, &d_leggings, &i_boots, &d_boots, &d_sword, &i_sword, &i_pickaxe, &d_pickaxe, &i_axe, &d_axe);
 	storage base_storage = {S_leather, S_wool, S_wood, S_iron, S_diamonds};
+	
 
 	while (1) {
 		i_armor_count = i_helmet + i_chestplate + i_leggings + i_boots;
@@ -1495,7 +1507,7 @@ int main()
 				strcpy(voleni_file_jmeno_tricetpet, voleni_file_jmeno);
 				strcat(voleni_file_jmeno_tricetpet, ".txt");
 				fptr = fopen(voleni_file_jmeno_tricetpet, "w");
-				fprintf(fptr, " %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n ",no_of_TANKs_defeated, player_hp_fighting, leather, wool, wood, iron, diamonds, i_helmet, d_helmet, i_chestplate, d_chestplate, i_leggings, d_leggings, i_boots, d_boots, d_sword, i_sword, i_pickaxe, d_pickaxe, i_axe, d_axe);
+				fprintf(fptr, "%d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n ", base_storage.S_leather, base_storage.S_wool, base_storage.S_wood, base_storage.S_iron, base_storage.S_diamonds, no_of_TANKs_defeated, player_hp_fighting, leather, wool, wood, iron, diamonds, i_helmet, d_helmet, i_chestplate, d_chestplate, i_leggings, d_leggings, i_boots, d_boots, d_sword, i_sword, i_pickaxe, d_pickaxe, i_axe, d_axe);
 				fclose(fptr);
 				printf(RED "SAVING AND ENDING THE GAME..." RESET);
 				Sleep(500);
