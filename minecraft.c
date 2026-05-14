@@ -23,6 +23,7 @@ typedef struct {
 	int S_wood;
 	int S_iron;
 	int S_diamonds;
+	int S_bones;
 } storage;
 
 void clean_buffer() {
@@ -1198,7 +1199,7 @@ void assassin_fight(int *boss_hp, int *player_hp, int i_chestplate, int i_helmet
 	}
 }
 
-void storage_system(storage * Sprt, int * leather, int * wool, int * wood, int * iron, int * diamonds){
+void storage_system(storage * Sprt, int * bones, int * leather, int * wool, int * wood, int * iron, int * diamonds){
 	printf(YELLOW "\n Transfer materials?\n 1. - yes\n 0. - no" RESET);
 	int volba = input_int(0, 1);
 	int volba2 = 0;
@@ -1210,8 +1211,8 @@ void storage_system(storage * Sprt, int * leather, int * wool, int * wood, int *
 			return;
 		break;
 		case 1:
-			printf(YELLOW "\n Which?\n 0. - none\n 1. - leather\n 2. - wool\n 3. - wood\n 4. - iron\n 5. - diamons" RESET);
-			volba2 = input_int(0,5);
+			printf(YELLOW "\n Which?\n 0. - none\n 1. - bones\n 2. - leather\n 3. - wool\n 4. - wood\n 5. - iron\n 6. - diamonds" RESET);
+			volba2 = input_int(0,6);
 			printf(CYAN "\n How much?" RESET);
 			kolik = input_int(0, 32000);
 			printf(CYAN "\n add or take?\n 1 - add\n 0 - take" RESET);
@@ -1222,6 +1223,22 @@ void storage_system(storage * Sprt, int * leather, int * wool, int * wood, int *
 				break;
 
 				case 1:
+					if(decision == 1){
+						*bones = *bones - kolik;
+						Sprt->S_bones = Sprt->S_bones + kolik;
+					}
+					else{
+						if(Sprt->S_bones >= kolik){
+							*bones = *bones + kolik;
+							Sprt->S_bones = Sprt->S_bones - kolik;
+						}
+						else{
+							printf("\n Not enough Bones in storage :(");
+						}
+					}
+				break;
+
+				case 2:
 					if(decision == 1){
 						*leather = *leather - kolik;
 						Sprt->S_leather = Sprt->S_leather + kolik;
@@ -1237,7 +1254,7 @@ void storage_system(storage * Sprt, int * leather, int * wool, int * wood, int *
 					}
 				break;
 
-				case 2:
+				case 3:
 					if(decision == 1){
 						*wool = *wool - kolik;
 						Sprt->S_wool = Sprt->S_wool + kolik;
@@ -1253,7 +1270,7 @@ void storage_system(storage * Sprt, int * leather, int * wool, int * wood, int *
 					}
 				break;
 
-				case 3:
+				case 4:
 					if(decision == 1){
 						*wood = *wood - kolik;
 						Sprt->S_wood = Sprt->S_wood + kolik;
@@ -1269,7 +1286,7 @@ void storage_system(storage * Sprt, int * leather, int * wool, int * wood, int *
 					}
 				break;
 
-				case 4:
+				case 5:
 					if(decision == 1){
 						*iron = *iron - kolik;
 						Sprt->S_iron = Sprt->S_iron + kolik;
@@ -1285,7 +1302,7 @@ void storage_system(storage * Sprt, int * leather, int * wool, int * wood, int *
 					}
 				break;
 
-				case 5:
+				case 6:
 					if(decision == 1){
 						*diamonds = *diamonds - kolik;
 						Sprt->S_diamonds = Sprt->S_diamonds + kolik;
@@ -1308,7 +1325,7 @@ void storage_system(storage * Sprt, int * leather, int * wool, int * wood, int *
 	
 
 }
-void base_fce(storage * Sprt,  int * leather, int * wool, int * wood, int * iron, int * diamonds){
+void base_fce(storage * Sprt, int * bones, int * leather, int * wool, int * wood, int * iron, int * diamonds){
 	int volba_base_whil = 0;
 	int ovladanie_base_whil = 1;
 	while (ovladanie_base_whil){
@@ -1325,13 +1342,14 @@ void base_fce(storage * Sprt,  int * leather, int * wool, int * wood, int * iron
 			break;
 
 			case 2: //storage
+				printf(PURPLE " Bones in storage: %d\n" RESET, Sprt->S_bones);
 				printf(PURPLE " Leather in storage: %d\n" RESET, Sprt->S_leather);
 				printf(PURPLE " Wool in storage: %d\n" RESET, Sprt->S_wool);
 				printf(PURPLE " Wood in storage: %d\n" RESET, Sprt->S_wood);
 				printf(PURPLE " Iron in storage: %d\n" RESET, Sprt->S_iron);
 				printf(PURPLE " Diamonds in storage: %d\n" RESET, Sprt->S_diamonds);
 
-				storage_system(Sprt, leather, wool, wood, iron, diamonds);
+				storage_system(Sprt, bones, leather, wool, wood, iron, diamonds);
 			break;
 
 			case 3://pets
@@ -1342,7 +1360,7 @@ void base_fce(storage * Sprt,  int * leather, int * wool, int * wood, int * iron
 }
 
 //DATA SAVE
-int getdatapls(int * S_leather, int * S_wool, int * S_wood, int * S_iron, int * S_diamonds, int * no_of_TANKs_defeated, int * player_hp_fighting, int * bones, int * leather, int * wool, int * wood, int * iron, int * diamonds, int * i_helmet, int * d_helmet, int * i_chestplate, int * d_chestplate, int * i_leggings, int * d_leggings, int * i_boots, int * d_boots, int * d_sword, int * i_sword, int * i_pickaxe, int * d_pickaxe, int * i_axe, int * d_axe){
+int getdatapls(int * S_bones, int * S_leather, int * S_wool, int * S_wood, int * S_iron, int * S_diamonds, int * no_of_TANKs_defeated, int * player_hp_fighting, int * bones, int * leather, int * wool, int * wood, int * iron, int * diamonds, int * i_helmet, int * d_helmet, int * i_chestplate, int * d_chestplate, int * i_leggings, int * d_leggings, int * i_boots, int * d_boots, int * d_sword, int * i_sword, int * i_pickaxe, int * d_pickaxe, int * i_axe, int * d_axe){
 	FILE * fptr_fce;
 	char voleni_file_jmeno[30];
 	int whil = 1;
@@ -1370,6 +1388,8 @@ int getdatapls(int * S_leather, int * S_wool, int * S_wood, int * S_iron, int * 
 	}
 		char s_data_save[10];
 		//storage
+		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
+		*S_bones = atoi(s_data_save);
 		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
 		*S_leather = atoi(s_data_save);
 		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
@@ -1439,6 +1459,7 @@ int main()
 	int control = 0;
 	int chance_mine = 0;
 	int volba_mine = 0;
+	int bones = 0;
 	int wool = 0;
 	int wood = 0;
 	int iron = 0;
@@ -1448,7 +1469,7 @@ int main()
 	int leather = 0;
 	int crafting_mat_volba = 0;
 
-	int bones = 0;
+	int S_bones = 0;
 	int S_leather = 0;
 	int S_wool = 0;
 	int S_wood = 0;
@@ -1494,8 +1515,9 @@ int main()
 	int running = 1; 
 
 	//zavolani fce, ulozeni v main, v deklaraci fce, fgets, printf v inv - 5 veci kde pridat do save
-	getdatapls(&S_leather, &S_wool, &S_wood, &S_iron, &S_diamonds, &no_of_TANKs_defeated, &player_hp_fighting, &bones, &leather, &wool, &wood, &iron, &diamonds, &i_helmet, &d_helmet, &i_chestplate, &d_chestplate, &i_leggings, &d_leggings, &i_boots, &d_boots, &d_sword, &i_sword, &i_pickaxe, &d_pickaxe, &i_axe, &d_axe);
-	storage base_storage = {S_leather, S_wool, S_wood, S_iron, S_diamonds};
+	//struct, storage, printf v storage, tady v main, DOTAHNOUT * z main, menu, ulozit!!!
+	getdatapls(&S_bones, &S_leather, &S_wool, &S_wood, &S_iron, &S_diamonds, &no_of_TANKs_defeated, &player_hp_fighting, &bones, &leather, &wool, &wood, &iron, &diamonds, &i_helmet, &d_helmet, &i_chestplate, &d_chestplate, &i_leggings, &d_leggings, &i_boots, &d_boots, &d_sword, &i_sword, &i_pickaxe, &d_pickaxe, &i_axe, &d_axe);
+	storage base_storage = {S_leather, S_wool, S_wood, S_iron, S_diamonds, S_bones};
 	
 
 	while (1) {
@@ -1516,7 +1538,7 @@ int main()
 				strcpy(voleni_file_jmeno_tricetpet, voleni_file_jmeno);
 				strcat(voleni_file_jmeno_tricetpet, ".txt");
 				fptr = fopen(voleni_file_jmeno_tricetpet, "w");
-				fprintf(fptr, "%d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n ", base_storage.S_leather, base_storage.S_wool, base_storage.S_wood, base_storage.S_iron, base_storage.S_diamonds, no_of_TANKs_defeated, player_hp_fighting, bones, leather, wool, wood, iron, diamonds, i_helmet, d_helmet, i_chestplate, d_chestplate, i_leggings, d_leggings, i_boots, d_boots, d_sword, i_sword, i_pickaxe, d_pickaxe, i_axe, d_axe);
+				fprintf(fptr, "%d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n ", base_storage.S_bones, base_storage.S_leather, base_storage.S_wool, base_storage.S_wood, base_storage.S_iron, base_storage.S_diamonds, no_of_TANKs_defeated, player_hp_fighting, bones, leather, wool, wood, iron, diamonds, i_helmet, d_helmet, i_chestplate, d_chestplate, i_leggings, d_leggings, i_boots, d_boots, d_sword, i_sword, i_pickaxe, d_pickaxe, i_axe, d_axe);
 				fclose(fptr);
 				printf(RED "SAVING AND ENDING THE GAME..." RESET);
 				Sleep(500);
@@ -1934,7 +1956,7 @@ int main()
 			heal_player(&player_hp_fighting);
 		break;
 		case 6:
-			base_fce(&base_storage, &leather, &wool, &wood, &iron, &diamonds);
+			base_fce(&base_storage, &bones, &leather, &wool, &wood, &iron, &diamonds);
 		break;
 		}
 	}
