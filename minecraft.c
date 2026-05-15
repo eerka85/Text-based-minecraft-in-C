@@ -197,12 +197,18 @@ void menu_encounter(int chosen_mon, char mon_name[], int hp_mon, int MAX_hp_mon,
 		print_sheep();
 		//printf("   __     __\n  /  \\~~~/  \\\n(    ..     )\n \\__-\\__/_/\n   \\_/  \\_/\n"); //to napsala vs :o
 	break;
+	case 22: //sheep
+		printf("\n\n ART COMMING SOON\n\n");
+	break;
 	}
 	printf(GREEN "\nA wild %s has appeared! What will you do?\n"RESET, mon_name);
 	printf(BOLD CYAN "\n=== ENCOUTER MENU ===\n" RESET);
 	printf(RED " ENEMY HP = %d/%d\n" RESET, hp_mon, MAX_hp_mon);
 	printf(GREEN " YOUR HP = %d/10\n" RESET, *player_hp_fighting);
-	printf(YELLOW " 1.ATTACK\n 0.RUN" RESET);
+	printf(YELLOW " 0.RUN\n 1.ATTACK\n " RESET);
+	if(chosen_mon == 22){
+		printf(YELLOW "2.TAME WITH BONES" RESET);
+	}
 }
 //jidlo
 int heal_player(int * player_hp_fighting){
@@ -366,7 +372,7 @@ int counterattack(int mon_attackdmg, int i_armor_count, int d_armor_count){
 
 }
 //ENCOUTER
-int encounter(int chosen_mon, int d_sword, int i_sword,int * bones, int * leather, int * wool, int *player_hp_fighting, int i_armor_count, int d_armor_count){
+int encounter(int chosen_mon, int *pet_doggos, int d_sword, int i_sword,int * bones, int * leather, int * wool, int *player_hp_fighting, int i_armor_count, int d_armor_count){
     //MON DATA
     char mon_name[20];
     int dontrun;
@@ -403,6 +409,12 @@ int encounter(int chosen_mon, int d_sword, int i_sword,int * bones, int * leathe
 			hp_mon = 3;
 			mon_attackdmg = 0;
 			break;
+		case 22: //22 - wolf
+			strcpy(mon_name, "wolf");
+			dontrun = 3;
+			hp_mon = 5;
+			mon_attackdmg = 0;
+		break;
     }
 	MAX_hp_mon = hp_mon;
 
@@ -414,7 +426,12 @@ int encounter(int chosen_mon, int d_sword, int i_sword,int * bones, int * leathe
     while(nuhuh == 1){
 		if(hp_mon > 0){
 			menu_encounter(chosen_mon, mon_name, hp_mon, MAX_hp_mon, *&player_hp_fighting);
-			volba = input_int(0, 1);
+			if(chosen_mon != 22){
+				volba = input_int(0, 1);
+			}
+			else{
+				volba = input_int(0, 2);
+			}
 			switch(volba){
 				case 0: //RUN
 				tmp = rand() % 11;
@@ -448,11 +465,45 @@ int encounter(int chosen_mon, int d_sword, int i_sword,int * bones, int * leathe
 					}
 
 				break;
+				case 2:
+					if(bones >0){
+						int doitame = 10;
+						printf(YELLOW " YOU TRY TAMEING THE WILD WOLF\n" RESET);
+						printf(" .\n");
+						Sleep(500);
+						printf(" .\n");
+						Sleep(500);
+						printf(" .\n");
+						Sleep(500);
+						printf(" .\n");
+						Sleep(500);
+						printf(" .\n");
+						Sleep(500);
+						printf(" .\n");
+						Sleep(500);
+						doitame = doitame - rand() %10;
+						if(doitame > 6){
+							printf(GREEN " YOU SUCCESFULLY TAMED THE WOLF\n CONSUMED 1 BONES\n" RESET);
+							*pet_doggos = *pet_doggos +1;
+							*bones = *bones -1;
+							return 0;
+						}
+						else{
+							printf(RED " WOLF NOT TAMED. TRY AGAIN?\n CONSUMED 1 BONES\n" RESET);
+							*bones = *bones -1;
+							continue;
+						}
+					}
+					else{
+						printf(RED " NOT ENOUGH BONES\n" RESET);
+					}
+				break;
 			}
 		}
 		else{ // if MON DEAD
 			int rewtmp = 0;
-			rewtmp = rand() % 3;
+			rewtmp = rand() % 2;
+			rewtmp++;
 
 			//MON STATS 2
 			switch(chosen_mon){
@@ -467,6 +518,10 @@ int encounter(int chosen_mon, int d_sword, int i_sword,int * bones, int * leathe
 				case 21: //21 - sheep
 				*wool = *wool + rewtmp;
 				printf(GREEN "ENEMY SHEEP DIED\nYOU GAINED %d wool/s\n" RESET, rewtmp);
+				break;
+				case 22: //21 - sheep
+				*leather = *leather + rewtmp;
+				printf(GREEN "ENEMY SHEEP DIED\nYOU GAINED %d leather/s\n" RESET, rewtmp);
 				break;
 			}
 
@@ -1110,25 +1165,30 @@ void mage_fight(int *boss_hp, int *player_hp, int i_chestplate, int i_helmet, in
 }
 //BIOMY FIGHT
 
-int plains(int d_sword, int i_sword, int * bones, int * leather, int * wool, int * player_hp_fighting, int i_armor_count, int d_armor_count){
+int plains(int * pet_doggos, int d_sword, int i_sword, int * bones, int * leather, int * wool, int * player_hp_fighting, int i_armor_count, int d_armor_count){
     int dncycle = 1;
     int whi = 1;
     while(whi==1){
         dncycle = rand() % 2;
+		int tmp = rand() % 2;
         if(dncycle == 0){ //NIGHT
             printf(BOLD "\nIts night...\n" RESET);
-			int tmp = rand() % 2;
 			if(tmp == 0){
-				whi =encounter(1, d_sword, i_sword, bones, leather, wool, player_hp_fighting, i_armor_count, d_armor_count);
+				whi =encounter(1, pet_doggos, d_sword, i_sword, bones, leather, wool, player_hp_fighting, i_armor_count, d_armor_count);
 			}
             else if(tmp == 1){
-				whi = encounter(2, d_sword, i_sword, bones, leather, wool, player_hp_fighting, i_armor_count, d_armor_count);
+				whi = encounter(2, pet_doggos, d_sword, i_sword, bones, leather, wool, player_hp_fighting, i_armor_count, d_armor_count);
 			}
 
         }
         else if(dncycle == 1){ //DAY
             printf(BOLD "\nIts a new day!\n" RESET);
-            whi = encounter(21, d_sword, i_sword, bones, leather, wool, player_hp_fighting, i_armor_count, d_armor_count);
+			if(tmp == 0){
+            	whi = encounter(21, pet_doggos, d_sword, i_sword, bones, leather, wool, player_hp_fighting, i_armor_count, d_armor_count);
+			}
+			else if(tmp == 1){
+				whi = encounter(22, pet_doggos, d_sword, i_sword, bones, leather, wool, player_hp_fighting, i_armor_count, d_armor_count);
+			}
         }
     }
     return 0;
@@ -1325,7 +1385,10 @@ void storage_system(storage * Sprt, int * bones, int * leather, int * wool, int 
 	
 
 }
-void base_fce(storage * Sprt, int * bones, int * leather, int * wool, int * wood, int * iron, int * diamonds){
+void pet_sim_X(int * pet_doggos){
+	printf(YELLOW " pet doggoes owned: %d\n" RESET, *pet_doggos);
+}
+void base_fce(int * pet_doggos, storage * Sprt, int * bones, int * leather, int * wool, int * wood, int * iron, int * diamonds){
 	int volba_base_whil = 0;
 	int ovladanie_base_whil = 1;
 	while (ovladanie_base_whil){
@@ -1338,7 +1401,7 @@ void base_fce(storage * Sprt, int * bones, int * leather, int * wool, int * wood
 			break;
 
 			case 1: //villagers
-
+				printf("WIP");
 			break;
 
 			case 2: //storage
@@ -1353,14 +1416,14 @@ void base_fce(storage * Sprt, int * bones, int * leather, int * wool, int * wood
 			break;
 
 			case 3://pets
-
+				pet_sim_X(pet_doggos);
 			break;
 		}
 	}//konec base
 }
 
 //DATA SAVE
-int getdatapls(int * S_bones, int * S_leather, int * S_wool, int * S_wood, int * S_iron, int * S_diamonds, int * no_of_TANKs_defeated, int * player_hp_fighting, int * bones, int * leather, int * wool, int * wood, int * iron, int * diamonds, int * i_helmet, int * d_helmet, int * i_chestplate, int * d_chestplate, int * i_leggings, int * d_leggings, int * i_boots, int * d_boots, int * d_sword, int * i_sword, int * i_pickaxe, int * d_pickaxe, int * i_axe, int * d_axe){
+int getdatapls(int * S_bones, int * S_leather, int * S_wool, int * S_wood, int * S_iron, int * S_diamonds, int * no_of_TANKs_defeated, int * player_hp_fighting, int * bones, int * leather, int * wool, int * wood, int * iron, int * diamonds, int * i_helmet, int * d_helmet, int * i_chestplate, int * d_chestplate, int * i_leggings, int * d_leggings, int * i_boots, int * d_boots, int * d_sword, int * i_sword, int * i_pickaxe, int * d_pickaxe, int * i_axe, int * d_axe, int * pet_doggos){
 	FILE * fptr_fce;
 	char voleni_file_jmeno[30];
 	int whil = 1;
@@ -1445,6 +1508,8 @@ int getdatapls(int * S_bones, int * S_leather, int * S_wool, int * S_wood, int *
 		*i_axe = atoi(s_data_save);
 		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
 		*d_axe = atoi(s_data_save);
+		fgets(s_data_save, sizeof(s_data_save), fptr_fce);
+		*pet_doggos = atoi(s_data_save);
 	fclose(fptr_fce);
 	printf("DATA SUCCESFULLY LOADED");
 	return 0;
@@ -1503,6 +1568,7 @@ int main()
 	int boss_fight_volba = 0;
 	int boss_loop = 0;
 	int no_of_TANKs_defeated = 0;
+	int pet_doggos = 0;
 
 	srand(time(NULL));
 	SetConsoleOutputCP(65001); //nastaveni UTF-8 pro windows, aby se zobrazovaly tyhle hezký kostičky :D (holy shit tohle napsalo vs za me)
@@ -1516,7 +1582,7 @@ int main()
 
 	//zavolani fce, ulozeni v main, v deklaraci fce, fgets, printf v inv - 5 veci kde pridat do save
 	//struct, storage, printf v storage, tady v main, DOTAHNOUT * z main, menu, ulozit!!!
-	getdatapls(&S_bones, &S_leather, &S_wool, &S_wood, &S_iron, &S_diamonds, &no_of_TANKs_defeated, &player_hp_fighting, &bones, &leather, &wool, &wood, &iron, &diamonds, &i_helmet, &d_helmet, &i_chestplate, &d_chestplate, &i_leggings, &d_leggings, &i_boots, &d_boots, &d_sword, &i_sword, &i_pickaxe, &d_pickaxe, &i_axe, &d_axe);
+	getdatapls(&S_bones, &S_leather, &S_wool, &S_wood, &S_iron, &S_diamonds, &no_of_TANKs_defeated, &player_hp_fighting, &bones, &leather, &wool, &wood, &iron, &diamonds, &i_helmet, &d_helmet, &i_chestplate, &d_chestplate, &i_leggings, &d_leggings, &i_boots, &d_boots, &d_sword, &i_sword, &i_pickaxe, &d_pickaxe, &i_axe, &d_axe, &pet_doggos);
 	storage base_storage = {S_leather, S_wool, S_wood, S_iron, S_diamonds, S_bones};
 	
 
@@ -1538,7 +1604,7 @@ int main()
 				strcpy(voleni_file_jmeno_tricetpet, voleni_file_jmeno);
 				strcat(voleni_file_jmeno_tricetpet, ".txt");
 				fptr = fopen(voleni_file_jmeno_tricetpet, "w");
-				fprintf(fptr, "%d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n ", base_storage.S_bones, base_storage.S_leather, base_storage.S_wool, base_storage.S_wood, base_storage.S_iron, base_storage.S_diamonds, no_of_TANKs_defeated, player_hp_fighting, bones, leather, wool, wood, iron, diamonds, i_helmet, d_helmet, i_chestplate, d_chestplate, i_leggings, d_leggings, i_boots, d_boots, d_sword, i_sword, i_pickaxe, d_pickaxe, i_axe, d_axe);
+				fprintf(fptr, "%d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n", base_storage.S_bones, base_storage.S_leather, base_storage.S_wool, base_storage.S_wood, base_storage.S_iron, base_storage.S_diamonds, no_of_TANKs_defeated, player_hp_fighting, bones, leather, wool, wood, iron, diamonds, i_helmet, d_helmet, i_chestplate, d_chestplate, i_leggings, d_leggings, i_boots, d_boots, d_sword, i_sword, i_pickaxe, d_pickaxe, i_axe, d_axe, pet_doggos);
 				fclose(fptr);
 				printf(RED "SAVING AND ENDING THE GAME..." RESET);
 				Sleep(500);
@@ -1912,12 +1978,12 @@ int main()
 							break;
 					}
 				break;
-				
+				  
 			} //end switch
 		break; //break case 1 bossove
 
         case 2: // explore
-            valid = plains(d_sword, i_sword, &bones, &leather, &wool, &player_hp_fighting, i_armor_count, d_armor_count);
+            valid = plains(&pet_doggos, d_sword, i_sword, &bones, &leather, &wool, &player_hp_fighting, i_armor_count, d_armor_count);
             if(valid != 0) printf("plains fce failed :(");
         break;
         case 3: // dungeon
@@ -1956,7 +2022,7 @@ int main()
 			heal_player(&player_hp_fighting);
 		break;
 		case 6:
-			base_fce(&base_storage, &bones, &leather, &wool, &wood, &iron, &diamonds);
+			base_fce(&pet_doggos, &base_storage, &bones, &leather, &wool, &wood, &iron, &diamonds);
 		break;
 		}
 	}
