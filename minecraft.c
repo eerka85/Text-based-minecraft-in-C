@@ -198,7 +198,7 @@ void menu_encounter(int chosen_mon, char mon_name[], int hp_mon, int MAX_hp_mon,
 		//printf("   __     __\n  /  \\~~~/  \\\n(    ..     )\n \\__-\\__/_/\n   \\_/  \\_/\n"); //to napsala vs :o
 	break;
 	case 22: //wdog
-		print_doggo(1);
+		print_doggo(999);
 	break;
 	}
 	printf(GREEN "\nA wild %s has appeared! What will you do?\n"RESET, mon_name);
@@ -466,7 +466,7 @@ int encounter(int chosen_mon, int *pet_doggos, int d_sword, int i_sword,int * bo
 
 				break;
 				case 2:
-					if(bones >0){
+					if(*bones >0){
 						int doitame = 10;
 						printf(YELLOW " YOU TRY TAMEING THE WILD WOLF\n" RESET);
 						printf(" .\n");
@@ -2025,9 +2025,16 @@ int main()
 				base_fce(&pet_doggos, &base_storage, &bones, &leather, &wool, &wood, &iron, &diamonds);
 			break;
 			case 7:
+				printf(YELLOW "\n ------TESTING AREA------" RESET);
 				clear_screen();
 				print_doggo(1);
 				print_doggo(2);
+				print_doggo(3);
+				print_doggo(4);
+				print_doggo(5);
+				print_doggo(6);
+				clear_screen();
+				encounter(22, &pet_doggos, d_sword, i_sword, &bones, &leather, &wool, &player_hp_fighting, i_armor_count, d_armor_count);
 			break;
 		}
 	}

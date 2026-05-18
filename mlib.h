@@ -7,6 +7,7 @@
 #define BLUE    "\x1b[34m"
 #define GRAY	"\x1b[90m"
 #define PURPLE  "\033[35m"
+#define ORANGE  "\033[38;2;227;121;23m"
 
 
 //zom//

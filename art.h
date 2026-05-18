@@ -285,6 +285,21 @@ void print_doggo(int volba_barva){
 		case 1:
 			chosen_color = RED;
 		break;
+		case 2:
+			chosen_color = BLUE;
+		break;
+		case 3:
+			chosen_color = GREEN;
+		break;
+		case 4:
+			chosen_color = YELLOW;
+		break;
+		case 5:
+			chosen_color = ORANGE;
+		break;
+		case 6:
+			chosen_color = PURPLE;
+		break;
 		default:
 			chosen_color = BLACK;
 		break;
