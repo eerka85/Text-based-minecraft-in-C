@@ -198,7 +198,7 @@ void menu_encounter(int chosen_mon, char mon_name[], int hp_mon, int MAX_hp_mon,
 		//printf("   __     __\n  /  \\~~~/  \\\n(    ..     )\n \\__-\\__/_/\n   \\_/  \\_/\n"); //to napsala vs :o
 	break;
 	case 22: //wdog
-		print_doggo();
+		print_doggo(1);
 	break;
 	}
 	printf(GREEN "\nA wild %s has appeared! What will you do?\n"RESET, mon_name);
@@ -2026,7 +2026,8 @@ int main()
 			break;
 			case 7:
 				clear_screen();
-				print_doggo();
+				print_doggo(1);
+				print_doggo(2);
 			break;
 		}
 	}
