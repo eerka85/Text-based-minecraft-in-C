@@ -41,3 +41,11 @@
 #define SHEEP_EYE_BLACK     "\033[38;2;0;0;0m"       // Pupil
 #define SHEEP_NOSE_PINK     "\033[38;2;251;153;192m" // The pink nose/mouth area
 #define SHEEP_NOSE_LIGHT    "\033[38;2;254;206;222m" // Highlight on the nose
+
+// dog
+#define DOG_GRAY_1 "\033[38;2;180;180;180m"
+#define DOG_GRAY_2 "\033[38;2;163;155;163m"
+#define DOG_GRAY_3 "\033[38;2;128;121;128m"
+#define DOG_RED "\033[38;2;237;28;36m"
+#define DOG_BROWN_1 "\033[38;2;156;90;60m"
+#define DOG_BROWN_2 "\033[38;2;89;51;34m"

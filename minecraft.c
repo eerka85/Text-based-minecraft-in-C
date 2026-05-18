@@ -197,8 +197,8 @@ void menu_encounter(int chosen_mon, char mon_name[], int hp_mon, int MAX_hp_mon,
 		print_sheep();
 		//printf("   __     __\n  /  \\~~~/  \\\n(    ..     )\n \\__-\\__/_/\n   \\_/  \\_/\n"); //to napsala vs :o
 	break;
-	case 22: //sheep
-		printf("\n\n ART COMMING SOON\n\n");
+	case 22: //wdog
+		print_doggo();
 	break;
 	}
 	printf(GREEN "\nA wild %s has appeared! What will you do?\n"RESET, mon_name);
@@ -1590,440 +1590,444 @@ int main()
 		i_armor_count = i_helmet + i_chestplate + i_leggings + i_boots;
 		d_armor_count = d_helmet + d_chestplate + d_leggings + d_boots;
 		menu();
-		volim = input_int(0, 6);
+		volim = input_int(0, 7);
 
 		switch (volim) {
-		case 0:
-			printf(RED " \nSAVE 'N QUIT?\n" RESET);
-			printf(YELLOW " 1. SAVE\n 2. DONT SAVE\n 3. BACK" RESET);
-			valid = input_int(1, 3);
-			if (valid == 1) {
-				char voleni_file_jmeno[30];
-				input_string(voleni_file_jmeno, sizeof(voleni_file_jmeno), " CHOOSE FILE NAME: ");
-				char voleni_file_jmeno_tricetpet[35];
-				strcpy(voleni_file_jmeno_tricetpet, voleni_file_jmeno);
-				strcat(voleni_file_jmeno_tricetpet, ".txt");
-				fptr = fopen(voleni_file_jmeno_tricetpet, "w");
-				fprintf(fptr, "%d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n", base_storage.S_bones, base_storage.S_leather, base_storage.S_wool, base_storage.S_wood, base_storage.S_iron, base_storage.S_diamonds, no_of_TANKs_defeated, player_hp_fighting, bones, leather, wool, wood, iron, diamonds, i_helmet, d_helmet, i_chestplate, d_chestplate, i_leggings, d_leggings, i_boots, d_boots, d_sword, i_sword, i_pickaxe, d_pickaxe, i_axe, d_axe, pet_doggos);
-				fclose(fptr);
-				printf(RED "SAVING AND ENDING THE GAME..." RESET);
-				Sleep(500);
-				return 0;
-			}
-			else if(valid == 2){
-				printf(RED "ENDING THE GAME..." RESET);
-				Sleep(500);
-				return 0;
-			}
-			else{
-				break;
-			}
-			break;
-		case 1: // crafting
-			menu_craft(leather, wool, wood, iron, diamonds);
-			volba_craft = input_int(0, 8);
-			switch (volba_craft) {
-
-			case 1: // helmet
-				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
-				crafting_mat_volba = input_int(0, 2);
-				if (crafting_mat_volba == 1) {
-					if (iron >= 5 && i_helmet != 1) {
-						printf(GREEN "IRON HELMET CRAFTED. WELL DONE!" RESET);
-						i_helmet = 1;
-						iron -= 5;
-						printf(YELLOW " YOU HAVE %d IRON\n" RESET, iron);
-					}
-					else {
-						printf(RED "IRON HELMET COULDN'T BE CRAFTED..." RESET);
-					}
-				}
-				else if (crafting_mat_volba == 2) {
-					if (diamonds >= 5 && d_helmet != 1) {
-						printf(GREEN "DIAMOND HELMET CRAFTED. WELL DONE!" RESET);
-						d_helmet = 1;
-						diamonds -= 5;
-						printf(YELLOW " YOU HAVE %d DIAMONDS\n" RESET, diamonds);
-						i_helmet = 0;
-					}
-					else {
-						printf(RED "DIAMOND HELMET COULDN'T BE CRAFTED..." RESET);
-					}
-				}
-				break;
-
-			case 2: // chestplate
-				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
-				crafting_mat_volba = input_int(0, 2);
-				if (crafting_mat_volba == 1) {
-					if (iron >= 8 && i_chestplate != 1) {
-						printf(GREEN "IRON CHESTPLATE CRAFTED. WELL DONE!" RESET);
-						i_chestplate = 1;
-						iron -= 8;
-						printf(YELLOW " YOU HAVE %d IRON\n" RESET, iron);
-					}
-					else {
-						printf(RED "IRON CHESTPLATE COULDN'T BE CRAFTED..." RESET);
-					}
-				}
-				else if (crafting_mat_volba == 2) {
-					if (diamonds >= 8 && d_chestplate != 1) {
-						printf(GREEN "DIAMOND CHESTPLATE CRAFTED. WELL DONE!" RESET);
-						d_chestplate = 1;
-						diamonds -= 8;
-						printf(YELLOW " YOU HAVE %d DIAMONDS\n" RESET, diamonds);
-						i_chestplate = 0;
-					}
-					else {
-						printf(RED "DIAMOND CHESTPLATE COULDN'T BE CRAFTED..." RESET);
-					}
-				}
-				break;
-
-			case 3: // leggings
-				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
-				crafting_mat_volba = input_int(0, 2);
-				if (crafting_mat_volba == 1) {
-					if (iron >= 7 && i_leggings != 1) {
-						printf(GREEN "IRON LEGGINGS CRAFTED. WELL DONE!" RESET);
-						i_leggings = 1;
-						iron -= 7;
-						printf(YELLOW " YOU HAVE %d IRON\n" RESET, iron);
-					}
-					else {
-						printf(RED "IRON LEGGINGS COULDN'T BE CRAFTED..." RESET);
-					}
-				}
-				else if (crafting_mat_volba == 2) {
-					if (diamonds >= 7 && d_leggings != 1) {
-						printf(GREEN "DIAMOND LEGGINGS CRAFTED. WELL DONE!" RESET);
-						d_leggings = 1;
-						diamonds -= 7;
-						printf(YELLOW " YOU HAVE %d DIAMONDS\n" RESET, diamonds);
-						i_leggings = 0;
-					}
-					else {
-						printf(RED "DIAMOND LEGGINGS COULDN'T BE CRAFTED..." RESET);
-					}
-				}
-				break;
-
-			case 4: // boots
-				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
-				crafting_mat_volba = input_int(0, 2);
-				if (crafting_mat_volba == 1) {
-					if (iron >= 4 && i_boots != 1) {
-						printf(GREEN "IRON BOOTS CRAFTED. WELL DONE!" RESET);
-						i_boots = 1;
-						iron -= 4;
-						printf(YELLOW " YOU HAVE %d IRON\n" RESET, iron);
-					}
-					else {
-						printf(RED "IRON BOOTS COULDN'T BE CRAFTED..." RESET);
-					}
-				}
-				else if (crafting_mat_volba == 2) {
-					if (diamonds >= 4 && d_boots != 1) {
-						printf(GREEN "DIAMOND BOOTS CRAFTED. WELL DONE!" RESET);
-						d_boots = 1;
-						diamonds -= 4;
-						printf(YELLOW " YOU HAVE %d DIAMONDS\n" RESET, diamonds);
-						i_boots = 0;
-					}
-					else {
-						printf(RED "DIAMOND BOOTS COULDN'T BE CRAFTED..." RESET);
-					}
-				}
-				break;
-
-			case 5: // sword
-				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
-				crafting_mat_volba = input_int(0, 2);
-				if (crafting_mat_volba == 1) {
-					if (iron >= 2 && i_sword != 1 && wood >= 2) {
-						printf(GREEN "IRON SWORD CRAFTED. WELL DONE!" RESET);
-						i_sword = 1;
-						iron -= 2;
-						wood -= 2;
-						printf(YELLOW " YOU HAVE %d IRON\n" RESET, iron);
-						printf(YELLOW " YOU HAVE %d WOOD\n" RESET, wood);
-					}
-					else {
-						printf(RED "IRON SWORD COULDN'T BE CRAFTED..." RESET);
-					}
-				}
-				else if (crafting_mat_volba == 2) {
-					if (diamonds >= 2 && d_sword != 1 && wood >= 2) {
-						printf(GREEN "DIAMOND SWORD CRAFTED. WELL DONE!" RESET);
-						d_sword = 1;
-						diamonds -= 2;
-						wood -= 2;
-						printf(YELLOW " YOU HAVE %d DIAMONDS\n" RESET, diamonds);
-						printf(YELLOW " YOU HAVE %d WOOD\n" RESET, wood);
-						i_sword = 0;
-					}
-					else {
-						printf(RED "DIAMOND SWORD COULDN'T BE CRAFTED..." RESET);
-					}
-				}
-				break;
-
-			case 6: // pickaxe
-				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
-				crafting_mat_volba = input_int(0, 2);
-				if (crafting_mat_volba == 1) {
-					if (iron >= 3 && i_pickaxe != 1 && wood >= 2) {
-						printf(GREEN "IRON PICKAXE CRAFTED. WELL DONE!" RESET);
-						i_pickaxe = 1;
-						iron -= 3;
-						printf(YELLOW " YOU HAVE %d IRON\n" RESET, iron);
-						wood -= 2;
-						printf(YELLOW " YOU HAVE %d WOOD\n" RESET, wood);
-					}
-					else {
-						printf(RED "IRON PICKAXE COULDN'T BE CRAFTED..." RESET);
-					}
-				}
-				else if (crafting_mat_volba == 2) {
-					if (diamonds >= 3 && d_pickaxe != 1 && wood >= 2) {
-						printf(GREEN "DIAMOND PICKAXE CRAFTED. WELL DONE!" RESET);
-						d_pickaxe = 1;
-						diamonds -= 3;
-						wood -= 2;
-						printf(YELLOW " YOU HAVE %d DIAMONDS\n" RESET, diamonds);
-						printf(YELLOW " YOU HAVE %d WOOD\n" RESET, wood);
-						i_pickaxe = 0;
-					}
-					else {
-						printf(RED "DIAMOND PICKAXE COULDN'T BE CRAFTED..." RESET);
-					}
-				}
-				break;
-
-			case 7: // axe
-				printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
-				control = 0;
-				crafting_mat_volba = input_int(0, 2);
-				if (crafting_mat_volba == 1) {
-					if (iron >= 3 && i_axe != 1 && wood >= 2) {
-						printf(GREEN "IRON AXE CRAFTED. WELL DONE!" RESET);
-						i_axe = 1;
-						iron -= 3;
-						wood -= 2;
-						printf(YELLOW " YOU HAVE %d IRON\n" RESET, iron);
-						printf(YELLOW " YOU HAVE %d WOOD\n" RESET, wood);
-					}
-					else {
-						printf(RED "IRON AXE COULDN'T BE CRAFTED..." RESET);
-					}
-				}
-				else if (crafting_mat_volba == 2) {
-					if (diamonds >= 3 && d_axe != 1 && wood >= 2) {
-						printf(GREEN "DIAMOND AXE CRAFTED. WELL DONE!" RESET);
-						d_axe = 1;
-						diamonds -= 3;
-						wood -= 2;
-						printf(YELLOW " YOU HAVE %d DIAMONDS\n" RESET, diamonds);
-						printf(YELLOW " YOU HAVE %d WOOD\n" RESET, wood);
-						i_axe = 0;
-					}
-					else {
-						printf(RED "DIAMOND AXE COULDN'T BE CRAFTED..." RESET);
-					}
-				}
-				break;
-
-			case 8: // backpack
-				if (leather >= 5 && backpack != 1) {
-					printf(GREEN "BACKPACK CRAFTED... + 10 INVENTORY SPACE\n" RESET);
-					backpack = 1;
-					leather -= 5;
-					printf(YELLOW " YOU HAVE %d LEATHER\n" RESET, leather);
-				}
-				else if (backpack == 1) {
-					printf(RED "You already have a backpack!\n" RESET);
-				}
-				else {
-					printf(RED "BACKPACK COULDN'T BE CRAFTED... Not enough leather! Need 5.\n" RESET);
-				}
-				break;
-
-			case 0: // back
-				break;
-			}
-			
-			break;
-
-		case 2: // mining
-			menu_mine();
-			volba_mine = input_int(0, 3);
-
-			switch (volba_mine) {
-			case 1:
-				wood = wood_mine(chance_mine, wood, i_axe, d_axe);
-				printf(YELLOW "\nYou have %d logs\n" RESET, wood);
-				break;
-
-			case 2:
-				iron = iron_mine(chance_mine, iron, i_pickaxe, d_pickaxe);
-				printf(YELLOW "\nYou have %d iron\n" RESET, iron);
-				break;
-
-			case 3:
-				diamonds = diamond_mine(chance_mine, diamonds, i_pickaxe, d_pickaxe);
-				printf(YELLOW "\nYou have %d diamonds\n" RESET, diamonds);
-				break;
-
 			case 0:
+				printf(RED " \nSAVE 'N QUIT?\n" RESET);
+				printf(YELLOW " 1. SAVE\n 2. DONT SAVE\n 3. BACK" RESET);
+				valid = input_int(1, 3);
+				if (valid == 1) {
+					char voleni_file_jmeno[30];
+					input_string(voleni_file_jmeno, sizeof(voleni_file_jmeno), " CHOOSE FILE NAME: ");
+					char voleni_file_jmeno_tricetpet[35];
+					strcpy(voleni_file_jmeno_tricetpet, voleni_file_jmeno);
+					strcat(voleni_file_jmeno_tricetpet, ".txt");
+					fptr = fopen(voleni_file_jmeno_tricetpet, "w");
+					fprintf(fptr, "%d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n", base_storage.S_bones, base_storage.S_leather, base_storage.S_wool, base_storage.S_wood, base_storage.S_iron, base_storage.S_diamonds, no_of_TANKs_defeated, player_hp_fighting, bones, leather, wool, wood, iron, diamonds, i_helmet, d_helmet, i_chestplate, d_chestplate, i_leggings, d_leggings, i_boots, d_boots, d_sword, i_sword, i_pickaxe, d_pickaxe, i_axe, d_axe, pet_doggos);
+					fclose(fptr);
+					printf(RED "SAVING AND ENDING THE GAME..." RESET);
+					Sleep(500);
+					return 0;
+				}
+				else if(valid == 2){
+					printf(RED "ENDING THE GAME..." RESET);
+					Sleep(500);
+					return 0;
+				}
+				else{
+					break;
+				}
 				break;
-			}
-			break;
+			case 1: // crafting
+				menu_craft(leather, wool, wood, iron, diamonds);
+				volba_craft = input_int(0, 8);
+				switch (volba_craft) {
 
-		case 3: // fighting goldddd
-    menu_fighting();
-    volba_fight = input_int(0, 3);
-    switch (volba_fight) {
-        case 0: // go back
-
-        break;
-        case 1:
-			menu_boss();
-			volba_boss = input_int(0, 5);
-
-			switch (volba_boss) {
-				case 0:
-				break;
-
-				case 1: // samurai
-					boss_hp = 100;
-					player_hp = 100;
-					printf(CYAN "You are fighting against the samurai...\n" RESET);
-					while (boss_hp > 0 && player_hp > 0) {
-						samurai_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
-						
+				case 1: // helmet
+					printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
+					crafting_mat_volba = input_int(0, 2);
+					if (crafting_mat_volba == 1) {
+						if (iron >= 5 && i_helmet != 1) {
+							printf(GREEN "IRON HELMET CRAFTED. WELL DONE!" RESET);
+							i_helmet = 1;
+							iron -= 5;
+							printf(YELLOW " YOU HAVE %d IRON\n" RESET, iron);
+						}
+						else {
+							printf(RED "IRON HELMET COULDN'T BE CRAFTED..." RESET);
+						}
 					}
+					else if (crafting_mat_volba == 2) {
+						if (diamonds >= 5 && d_helmet != 1) {
+							printf(GREEN "DIAMOND HELMET CRAFTED. WELL DONE!" RESET);
+							d_helmet = 1;
+							diamonds -= 5;
+							printf(YELLOW " YOU HAVE %d DIAMONDS\n" RESET, diamonds);
+							i_helmet = 0;
+						}
+						else {
+							printf(RED "DIAMOND HELMET COULDN'T BE CRAFTED..." RESET);
+						}
+					}
+					break;
+
+				case 2: // chestplate
+					printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
+					crafting_mat_volba = input_int(0, 2);
+					if (crafting_mat_volba == 1) {
+						if (iron >= 8 && i_chestplate != 1) {
+							printf(GREEN "IRON CHESTPLATE CRAFTED. WELL DONE!" RESET);
+							i_chestplate = 1;
+							iron -= 8;
+							printf(YELLOW " YOU HAVE %d IRON\n" RESET, iron);
+						}
+						else {
+							printf(RED "IRON CHESTPLATE COULDN'T BE CRAFTED..." RESET);
+						}
+					}
+					else if (crafting_mat_volba == 2) {
+						if (diamonds >= 8 && d_chestplate != 1) {
+							printf(GREEN "DIAMOND CHESTPLATE CRAFTED. WELL DONE!" RESET);
+							d_chestplate = 1;
+							diamonds -= 8;
+							printf(YELLOW " YOU HAVE %d DIAMONDS\n" RESET, diamonds);
+							i_chestplate = 0;
+						}
+						else {
+							printf(RED "DIAMOND CHESTPLATE COULDN'T BE CRAFTED..." RESET);
+						}
+					}
+					break;
+
+				case 3: // leggings
+					printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
+					crafting_mat_volba = input_int(0, 2);
+					if (crafting_mat_volba == 1) {
+						if (iron >= 7 && i_leggings != 1) {
+							printf(GREEN "IRON LEGGINGS CRAFTED. WELL DONE!" RESET);
+							i_leggings = 1;
+							iron -= 7;
+							printf(YELLOW " YOU HAVE %d IRON\n" RESET, iron);
+						}
+						else {
+							printf(RED "IRON LEGGINGS COULDN'T BE CRAFTED..." RESET);
+						}
+					}
+					else if (crafting_mat_volba == 2) {
+						if (diamonds >= 7 && d_leggings != 1) {
+							printf(GREEN "DIAMOND LEGGINGS CRAFTED. WELL DONE!" RESET);
+							d_leggings = 1;
+							diamonds -= 7;
+							printf(YELLOW " YOU HAVE %d DIAMONDS\n" RESET, diamonds);
+							i_leggings = 0;
+						}
+						else {
+							printf(RED "DIAMOND LEGGINGS COULDN'T BE CRAFTED..." RESET);
+						}
+					}
+					break;
+
+				case 4: // boots
+					printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
+					crafting_mat_volba = input_int(0, 2);
+					if (crafting_mat_volba == 1) {
+						if (iron >= 4 && i_boots != 1) {
+							printf(GREEN "IRON BOOTS CRAFTED. WELL DONE!" RESET);
+							i_boots = 1;
+							iron -= 4;
+							printf(YELLOW " YOU HAVE %d IRON\n" RESET, iron);
+						}
+						else {
+							printf(RED "IRON BOOTS COULDN'T BE CRAFTED..." RESET);
+						}
+					}
+					else if (crafting_mat_volba == 2) {
+						if (diamonds >= 4 && d_boots != 1) {
+							printf(GREEN "DIAMOND BOOTS CRAFTED. WELL DONE!" RESET);
+							d_boots = 1;
+							diamonds -= 4;
+							printf(YELLOW " YOU HAVE %d DIAMONDS\n" RESET, diamonds);
+							i_boots = 0;
+						}
+						else {
+							printf(RED "DIAMOND BOOTS COULDN'T BE CRAFTED..." RESET);
+						}
+					}
+					break;
+
+				case 5: // sword
+					printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
+					crafting_mat_volba = input_int(0, 2);
+					if (crafting_mat_volba == 1) {
+						if (iron >= 2 && i_sword != 1 && wood >= 2) {
+							printf(GREEN "IRON SWORD CRAFTED. WELL DONE!" RESET);
+							i_sword = 1;
+							iron -= 2;
+							wood -= 2;
+							printf(YELLOW " YOU HAVE %d IRON\n" RESET, iron);
+							printf(YELLOW " YOU HAVE %d WOOD\n" RESET, wood);
+						}
+						else {
+							printf(RED "IRON SWORD COULDN'T BE CRAFTED..." RESET);
+						}
+					}
+					else if (crafting_mat_volba == 2) {
+						if (diamonds >= 2 && d_sword != 1 && wood >= 2) {
+							printf(GREEN "DIAMOND SWORD CRAFTED. WELL DONE!" RESET);
+							d_sword = 1;
+							diamonds -= 2;
+							wood -= 2;
+							printf(YELLOW " YOU HAVE %d DIAMONDS\n" RESET, diamonds);
+							printf(YELLOW " YOU HAVE %d WOOD\n" RESET, wood);
+							i_sword = 0;
+						}
+						else {
+							printf(RED "DIAMOND SWORD COULDN'T BE CRAFTED..." RESET);
+						}
+					}
+					break;
+
+				case 6: // pickaxe
+					printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
+					crafting_mat_volba = input_int(0, 2);
+					if (crafting_mat_volba == 1) {
+						if (iron >= 3 && i_pickaxe != 1 && wood >= 2) {
+							printf(GREEN "IRON PICKAXE CRAFTED. WELL DONE!" RESET);
+							i_pickaxe = 1;
+							iron -= 3;
+							printf(YELLOW " YOU HAVE %d IRON\n" RESET, iron);
+							wood -= 2;
+							printf(YELLOW " YOU HAVE %d WOOD\n" RESET, wood);
+						}
+						else {
+							printf(RED "IRON PICKAXE COULDN'T BE CRAFTED..." RESET);
+						}
+					}
+					else if (crafting_mat_volba == 2) {
+						if (diamonds >= 3 && d_pickaxe != 1 && wood >= 2) {
+							printf(GREEN "DIAMOND PICKAXE CRAFTED. WELL DONE!" RESET);
+							d_pickaxe = 1;
+							diamonds -= 3;
+							wood -= 2;
+							printf(YELLOW " YOU HAVE %d DIAMONDS\n" RESET, diamonds);
+							printf(YELLOW " YOU HAVE %d WOOD\n" RESET, wood);
+							i_pickaxe = 0;
+						}
+						else {
+							printf(RED "DIAMOND PICKAXE COULDN'T BE CRAFTED..." RESET);
+						}
+					}
+					break;
+
+				case 7: // axe
+					printf(YELLOW "\n 1. Iron\n 2. Diamond\n 0. Back" RESET);
+					control = 0;
+					crafting_mat_volba = input_int(0, 2);
+					if (crafting_mat_volba == 1) {
+						if (iron >= 3 && i_axe != 1 && wood >= 2) {
+							printf(GREEN "IRON AXE CRAFTED. WELL DONE!" RESET);
+							i_axe = 1;
+							iron -= 3;
+							wood -= 2;
+							printf(YELLOW " YOU HAVE %d IRON\n" RESET, iron);
+							printf(YELLOW " YOU HAVE %d WOOD\n" RESET, wood);
+						}
+						else {
+							printf(RED "IRON AXE COULDN'T BE CRAFTED..." RESET);
+						}
+					}
+					else if (crafting_mat_volba == 2) {
+						if (diamonds >= 3 && d_axe != 1 && wood >= 2) {
+							printf(GREEN "DIAMOND AXE CRAFTED. WELL DONE!" RESET);
+							d_axe = 1;
+							diamonds -= 3;
+							wood -= 2;
+							printf(YELLOW " YOU HAVE %d DIAMONDS\n" RESET, diamonds);
+							printf(YELLOW " YOU HAVE %d WOOD\n" RESET, wood);
+							i_axe = 0;
+						}
+						else {
+							printf(RED "DIAMOND AXE COULDN'T BE CRAFTED..." RESET);
+						}
+					}
+					break;
+
+				case 8: // backpack
+					if (leather >= 5 && backpack != 1) {
+						printf(GREEN "BACKPACK CRAFTED... + 10 INVENTORY SPACE\n" RESET);
+						backpack = 1;
+						leather -= 5;
+						printf(YELLOW " YOU HAVE %d LEATHER\n" RESET, leather);
+					}
+					else if (backpack == 1) {
+						printf(RED "You already have a backpack!\n" RESET);
+					}
+					else {
+						printf(RED "BACKPACK COULDN'T BE CRAFTED... Not enough leather! Need 5.\n" RESET);
+					}
+					break;
+
+				case 0: // back
+					break;
+				}
+				
 				break;
 
-				case 2: // mage
-					boss_hp = 10;
-					player_hp = 100;
-					while (boss_hp > 0 && player_hp > 0) {
-						mage_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots, d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
-						if (player_hp <= 0) {
-							printf(RED "\nYou were defeated by the mage!\n" RESET);
+			case 2: // mining
+				menu_mine();
+				volba_mine = input_int(0, 3);
+
+				switch (volba_mine) {
+				case 1:
+					wood = wood_mine(chance_mine, wood, i_axe, d_axe);
+					printf(YELLOW "\nYou have %d logs\n" RESET, wood);
+					break;
+
+				case 2:
+					iron = iron_mine(chance_mine, iron, i_pickaxe, d_pickaxe);
+					printf(YELLOW "\nYou have %d iron\n" RESET, iron);
+					break;
+
+				case 3:
+					diamonds = diamond_mine(chance_mine, diamonds, i_pickaxe, d_pickaxe);
+					printf(YELLOW "\nYou have %d diamonds\n" RESET, diamonds);
+					break;
+
+				case 0:
+					break;
+				}
+				break;
+
+			case 3: // fighting goldddd
+		menu_fighting();
+		volba_fight = input_int(0, 3);
+		switch (volba_fight) {
+			case 0: // go back
+
+			break;
+			case 1:
+				menu_boss();
+				volba_boss = input_int(0, 5);
+
+				switch (volba_boss) {
+					case 0:
+					break;
+
+					case 1: // samurai
+						boss_hp = 100;
+						player_hp = 100;
+						printf(CYAN "You are fighting against the samurai...\n" RESET);
+						while (boss_hp > 0 && player_hp > 0) {
+							samurai_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
+							
+						}
+					break;
+
+					case 2: // mage
+						boss_hp = 10;
+						player_hp = 100;
+						while (boss_hp > 0 && player_hp > 0) {
+							mage_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots, d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
+							if (player_hp <= 0) {
+								printf(RED "\nYou were defeated by the mage!\n" RESET);
+									break;
+							}
+								
+							} 
+						
+					break;
+
+					case 3: // tank
+						int pakvyl = tank_fight(i_armor_count, d_armor_count); //raise defeat counter
+						if(pakvyl == 0){
+							no_of_TANKs_defeated++;
+						}
+					break;
+					case 4: // assassin
+							boss_hp = 100;
+							player_hp = 100;
+							while (boss_hp > 0 && player_hp > 0) {
+								assassin_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,
+											d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
+								if (player_hp <= 0) {
+									printf(RED "\nYou were defeated by the assassin!\n" RESET);
+									break;
+								} else if (boss_hp <= 0) {
+									printf(GREEN "\nYou defeated the assassin!\n" RESET);
+									break;
+								}
+							}
+					break;
+
+					case 5:  // random
+						int random_boss = rand() % 4;
+						random_boss++;
+						boss_hp = 100;
+						player_hp = 100;
+						switch (random_boss) {
+							case 1:
+								printf(CYAN "You are fighting against the samurai...\n" RESET);
+								while (boss_hp > 0 && player_hp > 0) {
+									samurai_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
+									if (player_hp <= 0) { printf(RED "\nYou were defeated by the samurai!\n" RESET); break; }
+									else if (boss_hp <= 0) { printf(GREEN "\nYou defeated the samurai!\n" RESET); break; }
+								}
+								break;
+							case 2:
+								while (boss_hp > 0 && player_hp > 0) {
+									mage_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,
+												d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
+									if (player_hp <= 0) { printf(RED "\nYou were defeated by the mage!\n" RESET); break; }
+									else if (boss_hp <= 0) { printf(GREEN "\nYou defeated the mage!\n" RESET); break; }
+								}
+								break;
+							case 3:
+								tank_fight(i_armor_count, d_armor_count);
+							case 4:
+								while (boss_hp > 0 && player_hp > 0) {
+
+									printf("WIP...");
+									break;
+
+									assassin_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,
+													d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
+									if (player_hp <= 0) { printf(RED "\nYou were defeated by the assassin!\n" RESET); break; }
+									else if (boss_hp <= 0) { printf(GREEN "\nYou defeated the assassin!\n" RESET); break; }
+								}
 								break;
 						}
-							
-						} 
+					break;
 					
-				break;
+				} //end switch
+			break; //break case 1 bossove
 
-				case 3: // tank
-					int pakvyl = tank_fight(i_armor_count, d_armor_count); //raise defeat counter
-					if(pakvyl == 0){
-						no_of_TANKs_defeated++;
-					}
-				break;
-				case 4: // assassin
-                        boss_hp = 100;
-                        player_hp = 100;
-                        while (boss_hp > 0 && player_hp > 0) {
-                            assassin_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,
-                                           d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
-                            if (player_hp <= 0) {
-                                printf(RED "\nYou were defeated by the assassin!\n" RESET);
-                                break;
-                            } else if (boss_hp <= 0) {
-                                printf(GREEN "\nYou defeated the assassin!\n" RESET);
-                                break;
-                            }
-                        }
-                break;
+			case 2: // explore
+				valid = plains(&pet_doggos, d_sword, i_sword, &bones, &leather, &wool, &player_hp_fighting, i_armor_count, d_armor_count);
+				if(valid != 0) printf("plains fce failed :(");
+			break;
+			case 3: // dungeon
+			break;
+		} // end volba_fight switch
+		break; // end main case 3
+			case 4: // inventory
+				printf(BOLD CYAN "\n=== INVENTORY ===\n" RESET);
+				printf(RED    " Health:           %d/10\n" RESET, player_hp_fighting);
+				printf(YELLOW " Logs:             %d\n" RESET, wood);
+				printf(YELLOW " Iron:             %d\n" RESET, iron);
+				printf(YELLOW " Diamonds:         %d\n" RESET, diamonds);
+				printf(YELLOW " Bones:            %d\n" RESET, bones);
+				printf(YELLOW " Leather:          %d\n" RESET, leather);
+				printf(YELLOW " Wool:             %d\n" RESET, wool);
+				printf(CYAN " diamond sword:      %d\n" RESET, d_sword);
+				printf(GRAY " iron sword:         %d\n" RESET, i_sword);
+				printf(CYAN " diamond pickaxe:    %d\n" RESET, d_pickaxe);
+				printf(GRAY " iron pickaxe:       %d\n" RESET, i_pickaxe);
+				printf(CYAN " diamond axe:        %d\n" RESET, d_axe);
+				printf(GRAY " iron axe:           %d\n" RESET, i_axe);
+				printf(CYAN " diamond helmet:     %d\n" RESET, d_helmet);
+				printf(GRAY	" iron helmet:        %d\n" RESET, i_helmet);
+				printf(CYAN " diamond chestplate: %d\n" RESET, d_chestplate);
+				printf(GRAY " iron chestplate:    %d\n" RESET, i_chestplate);
+				printf(CYAN " diamond leggings:   %d\n" RESET, d_leggings);
+				printf(GRAY " iron leggings:      %d\n" RESET, i_leggings);
+				printf(CYAN " diamond boots:      %d\n" RESET, d_boots);
+				printf(GRAY " iron boots:         %d\n" RESET, i_boots);
 
-				case 5:  // random
-					int random_boss = rand() % 4;
-					random_boss++;
-					boss_hp = 100;
-					player_hp = 100;
-					switch (random_boss) {
-						case 1:
-							printf(CYAN "You are fighting against the samurai...\n" RESET);
-							while (boss_hp > 0 && player_hp > 0) {
-								samurai_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
-								if (player_hp <= 0) { printf(RED "\nYou were defeated by the samurai!\n" RESET); break; }
-								else if (boss_hp <= 0) { printf(GREEN "\nYou defeated the samurai!\n" RESET); break; }
-							}
-							break;
-						case 2:
-							while (boss_hp > 0 && player_hp > 0) {
-								mage_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,
-											d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
-								if (player_hp <= 0) { printf(RED "\nYou were defeated by the mage!\n" RESET); break; }
-								else if (boss_hp <= 0) { printf(GREEN "\nYou defeated the mage!\n" RESET); break; }
-							}
-							break;
-						case 3:
-							tank_fight(i_armor_count, d_armor_count);
-						case 4:
-							while (boss_hp > 0 && player_hp > 0) {
+				printf(BOLD YELLOW " TANKS DEFEATED:         %d\n" RESET, no_of_TANKs_defeated);
+				//pozdeji ostati rn am too lazy
 
-								printf("WIP...");
-								break;
-
-								assassin_fight(&boss_hp, &player_hp, i_chestplate, i_helmet, i_leggings, i_boots,
-												d_chestplate, d_helmet, d_leggings, d_boots, d_sword, i_sword);
-								if (player_hp <= 0) { printf(RED "\nYou were defeated by the assassin!\n" RESET); break; }
-								else if (boss_hp <= 0) { printf(GREEN "\nYou defeated the assassin!\n" RESET); break; }
-							}
-							break;
-					}
-				break;
-				  
-			} //end switch
-		break; //break case 1 bossove
-
-        case 2: // explore
-            valid = plains(&pet_doggos, d_sword, i_sword, &bones, &leather, &wool, &player_hp_fighting, i_armor_count, d_armor_count);
-            if(valid != 0) printf("plains fce failed :(");
-        break;
-        case 3: // dungeon
-        break;
-    } // end volba_fight switch
-    break; // end main case 3
-		case 4: // inventory
-			printf(BOLD CYAN "\n=== INVENTORY ===\n" RESET);
-			printf(RED    " Health:           %d/10\n" RESET, player_hp_fighting);
-			printf(YELLOW " Logs:             %d\n" RESET, wood);
-			printf(YELLOW " Iron:             %d\n" RESET, iron);
-			printf(YELLOW " Diamonds:         %d\n" RESET, diamonds);
-			printf(YELLOW " Bones:            %d\n" RESET, bones);
-			printf(YELLOW " Leather:          %d\n" RESET, leather);
-			printf(YELLOW " Wool:             %d\n" RESET, wool);
-			printf(CYAN " diamond sword:      %d\n" RESET, d_sword);
-			printf(GRAY " iron sword:         %d\n" RESET, i_sword);
-			printf(CYAN " diamond pickaxe:    %d\n" RESET, d_pickaxe);
-			printf(GRAY " iron pickaxe:       %d\n" RESET, i_pickaxe);
-			printf(CYAN " diamond axe:        %d\n" RESET, d_axe);
-			printf(GRAY " iron axe:           %d\n" RESET, i_axe);
-			printf(CYAN " diamond helmet:     %d\n" RESET, d_helmet);
-			printf(GRAY	" iron helmet:        %d\n" RESET, i_helmet);
-			printf(CYAN " diamond chestplate: %d\n" RESET, d_chestplate);
-			printf(GRAY " iron chestplate:    %d\n" RESET, i_chestplate);
-			printf(CYAN " diamond leggings:   %d\n" RESET, d_leggings);
-			printf(GRAY " iron leggings:      %d\n" RESET, i_leggings);
-			printf(CYAN " diamond boots:      %d\n" RESET, d_boots);
-			printf(GRAY " iron boots:         %d\n" RESET, i_boots);
-
-			printf(BOLD YELLOW " TANKS DEFEATED:         %d\n" RESET, no_of_TANKs_defeated);
-			//pozdeji ostati rn am too lazy
-
-		break;
-		case 5: //eat
-			heal_player(&player_hp_fighting);
-		break;
-		case 6:
-			base_fce(&pet_doggos, &base_storage, &bones, &leather, &wool, &wood, &iron, &diamonds);
-		break;
+			break;
+			case 5: //eat
+				heal_player(&player_hp_fighting);
+			break;
+			case 6:
+				base_fce(&pet_doggos, &base_storage, &bones, &leather, &wool, &wood, &iron, &diamonds);
+			break;
+			case 7:
+				clear_screen();
+				print_doggo();
+			break;
 		}
 	}
 
