@@ -25,6 +25,32 @@ typedef struct {
 	int S_diamonds;
 	int S_bones;
 } storage;
+/*typedef struct {
+	int no_of_TANKs_defeated;
+	int player_hp_fighting;
+	int bones;
+	int leather;
+	int wool;
+	int wood;
+	int iron;
+	int diamonds;
+	int i_helmet;
+	int d_hlemet;
+	int i_chestplate;
+	int d_chestplate;
+	int i_leggings;
+	int d_leggings; 
+	int i_boots;
+	int d_boots ;
+	int d_sword; 
+	int i_sword;
+	int i_pickaxe;
+	int d_pickaxe;
+	int i_axe;
+	int d_axe;
+	int pet_doggos;
+
+} itemy_na_ulozeni_struct;*/
 
 void clean_buffer() {
 	int c;
@@ -1387,6 +1413,9 @@ void storage_system(storage * Sprt, int * bones, int * leather, int * wool, int 
 }
 void pet_sim_X(int * pet_doggos){
 	printf(YELLOW " pet doggoes owned: %d\n" RESET, *pet_doggos);
+	for(int i = 0; i< *pet_doggos; i++){
+		print_doggo(rand() % (6-1 +1) +1);
+	}
 }
 void base_fce(int * pet_doggos, storage * Sprt, int * bones, int * leather, int * wool, int * wood, int * iron, int * diamonds){
 	int volba_base_whil = 0;
