@@ -632,10 +632,10 @@ int dmg_TANK(){ //vracet dmg
 	struct timeval start, stop;
 	char naps_att[100] = {0};
 	int factcheck = 0;
-	printf(YELLOW "\n You get ready for an attack\n (type attack after 321 go)" RESET);
+	printf(YELLOW "\n You get ready for an attack\n (type 4862 4862 after 321 go)" RESET);
 	printf(RED "\n Are you ready?" RESET);
 	getchar();
-	printf(BOLD CYAN "\n type attack in\n" RESET);
+	printf(BOLD CYAN "\n type 48624862 in\n" RESET);
 	printf(RED "3\n" RESET);
 	Sleep(1000);
 	printf(RED "2\n" RESET);
@@ -650,7 +650,7 @@ int dmg_TANK(){ //vracet dmg
 	printf(GREEN "GO! : " RESET);
 	do{
 		input_string(naps_att, sizeof(naps_att), "");
-		factcheck = strcmp("attack", naps_att);
+		factcheck = strcmp("48624862", naps_att);
 		if(factcheck != 0){
 			printf(BOLD RED "\n wrong input\n Try again: " RESET);
 		}
@@ -686,7 +686,7 @@ int dmg_TANK(){ //vracet dmg
 	
 	
 }
-int tank_fight(int i_armor_count, int d_armor_count){ //idk jestli se hodi mezi ostatni bossfighty...
+int tank_fight(int * iron, int * diamonds, int i_armor_count, int d_armor_count){ 
 	int PLAYER_lives = 4;				//PLAYER
 	int max_PLAYER_lives = PLAYER_lives;
 	int PLAYER_decision_roud = 0;
@@ -1992,7 +1992,7 @@ int main()
 								}
 								break;
 							case 3:
-								tank_fight(i_armor_count, d_armor_count);
+								tank_fight(&iron, &diamonds, i_armor_count, d_armor_count);
 							case 4:
 								while (boss_hp > 0 && player_hp > 0) {
 
