@@ -1948,7 +1948,7 @@ int main()
 					break;
 
 					case 3: // tank
-						int pakvyl = tank_fight(i_armor_count, d_armor_count); //raise defeat counter
+						int pakvyl = tank_fight(&iron, &diamonds, i_armor_count, d_armor_count); //raise defeat counter
 						if(pakvyl == 0){
 							no_of_TANKs_defeated++;
 						}
