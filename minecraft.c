@@ -25,6 +25,32 @@ typedef struct {
 	int S_diamonds;
 	int S_bones;
 } storage;
+/*typedef struct {
+	int no_of_TANKs_defeated;
+	int player_hp_fighting;
+	int bones;
+	int leather;
+	int wool;
+	int wood;
+	int iron;
+	int diamonds;
+	int i_helmet;
+	int d_hlemet;
+	int i_chestplate;
+	int d_chestplate;
+	int i_leggings;
+	int d_leggings; 
+	int i_boots;
+	int d_boots ;
+	int d_sword; 
+	int i_sword;
+	int i_pickaxe;
+	int d_pickaxe;
+	int i_axe;
+	int d_axe;
+	int pet_doggos;
+
+} itemy_na_ulozeni_struct;*/
 
 void clean_buffer() {
 	int c;
@@ -606,10 +632,10 @@ int dmg_TANK(){ //vracet dmg
 	struct timeval start, stop;
 	char naps_att[100] = {0};
 	int factcheck = 0;
-	printf(YELLOW "\n You get ready for an attack\n (type attack after 321 go)" RESET);
+	printf(YELLOW "\n You get ready for an attack\n (type 4862 4862 after 321 go)" RESET);
 	printf(RED "\n Are you ready?" RESET);
 	getchar();
-	printf(BOLD CYAN "\n type attack in\n" RESET);
+	printf(BOLD CYAN "\n type 48624862 in\n" RESET);
 	printf(RED "3\n" RESET);
 	Sleep(1000);
 	printf(RED "2\n" RESET);
@@ -624,7 +650,7 @@ int dmg_TANK(){ //vracet dmg
 	printf(GREEN "GO! : " RESET);
 	do{
 		input_string(naps_att, sizeof(naps_att), "");
-		factcheck = strcmp("attack", naps_att);
+		factcheck = strcmp("48624862", naps_att);
 		if(factcheck != 0){
 			printf(BOLD RED "\n wrong input\n Try again: " RESET);
 		}
@@ -660,7 +686,7 @@ int dmg_TANK(){ //vracet dmg
 	
 	
 }
-int tank_fight(int i_armor_count, int d_armor_count){ //idk jestli se hodi mezi ostatni bossfighty...
+int tank_fight(int * iron, int * diamonds, int i_armor_count, int d_armor_count){ 
 	int PLAYER_lives = 4;				//PLAYER
 	int max_PLAYER_lives = PLAYER_lives;
 	int PLAYER_decision_roud = 0;
@@ -1387,6 +1413,9 @@ void storage_system(storage * Sprt, int * bones, int * leather, int * wool, int 
 }
 void pet_sim_X(int * pet_doggos){
 	printf(YELLOW " pet doggoes owned: %d\n" RESET, *pet_doggos);
+	for(int i = 0; i< *pet_doggos; i++){
+		print_doggo(rand() % (6-1 +1) +1);
+	}
 }
 void base_fce(int * pet_doggos, storage * Sprt, int * bones, int * leather, int * wool, int * wood, int * iron, int * diamonds){
 	int volba_base_whil = 0;
@@ -1919,7 +1948,7 @@ int main()
 					break;
 
 					case 3: // tank
-						int pakvyl = tank_fight(i_armor_count, d_armor_count); //raise defeat counter
+						int pakvyl = tank_fight(&iron, &diamonds, i_armor_count, d_armor_count); //raise defeat counter
 						if(pakvyl == 0){
 							no_of_TANKs_defeated++;
 						}
@@ -1963,7 +1992,7 @@ int main()
 								}
 								break;
 							case 3:
-								tank_fight(i_armor_count, d_armor_count);
+								tank_fight(&iron, &diamonds, i_armor_count, d_armor_count);
 							case 4:
 								while (boss_hp > 0 && player_hp > 0) {
 
