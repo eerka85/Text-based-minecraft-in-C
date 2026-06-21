@@ -79,7 +79,7 @@ void delete_screen(){
 void menu() {
 	clear_screen();
 	printf(BOLD CYAN "\n=== ADVENTURE ===\n" RESET);
-	printf(YELLOW " 1. CRAFT\n 2. MINE\n 3. FIGHT\n 4. INVENTORY\n 5. HEAL\n 6. BASE\n 0. LEAVE" RESET);
+	printf(YELLOW " 1. CRAFT\n 2. MINE\n 3. FIGHT\n 4. INVENTORY\n 5. HEAL\n 6. BASE\n 0. LvEAVE" RESET);
 }
 
 void menu_mine() {
